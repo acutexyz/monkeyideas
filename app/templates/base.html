@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="static/css/base.css">
+        <script src="static/js/jquery-1.8.3.min.js"></script>
+        <link rel="import" href="static/components/core-scaffold/core-scaffold.html">
+        <link rel="import" href="static/components/core-toolbar/core-toolbar.html">
+        <link rel="import" href="static/components/core-menu/core-menu.html">
+        <link rel="import" href="static/components/core-icon-button/core-icon-button.html">
+        <link rel="import" href="static/components/paper-item/paper-item.html">
+    </head>
+    <body unresolved fullbleed>
+        <core-scaffold id="scaffold">
+            <nav>
+                <core-toolbar>
+                    <span>Monkeys' Ideas</span>
+                </core-toolbar>
+                <core-menu selected="0">
+                    <paper-item icon="label-outline" label="Ideas">
+                        <a href="#one"></a>
+                    </paper-item>
+                    <paper-item icon="label-outline" label="Monkeys">
+                        <a href="#two"></a>
+                    </paper-item>
+                    <paper-item icon="label-outline" label="Profile">
+                        <a href="#two"></a>
+                    </paper-item>
+                </core-menu>
+            </nav>
+            
+            <!-- flex makes the bar span across the top of the main content area -->
+            <core-toolbar tool flex>
+                <!-- flex spaces this element and jusifies the icons to the right-side -->
+                <div flex>Application</div>
+                <core-icon-button icon="add"></core-icon-button>
+                <core-icon-button icon="exit-to-app"></core-icon-button>
+            </core-toolbar>
+            
+            <!-- content -->
+            <div layout horizontal center-center fit>
+                <div id="wrapper">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </core-scaffold>
+    </body>
+</html>

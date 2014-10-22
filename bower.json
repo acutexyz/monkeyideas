@@ -1,0 +1,13 @@
+{
+  "name": "monkeysideas",
+  "version": "0.0.0",
+  "homepage": "https://github.com/acutexyz/monkeyideas",
+  "authors": [
+    "Aidan <aidanxyz@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "core-elements": "Polymer/core-elements#~0.4.2",
+    "paper-elements": "Polymer/paper-elements#~0.4.2"
+  }
+}

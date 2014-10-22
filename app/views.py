@@ -1,6 +1,6 @@
 from app import app, models
 from flask.ext.login import LoginManager, login_user, logout_user, login_required
-from flask import request
+from flask import request, render_template
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -11,7 +11,7 @@ def load_user(userId):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    return render_template('login.html')
 
 @app.route('/logout', methods=['POST'])
 @login_required

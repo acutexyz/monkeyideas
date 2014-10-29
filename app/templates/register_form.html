@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/register.css">
+<link rel="import" href="/static/components/paper-input/paper-input.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-item/paper-item.html">
+<link rel="import" href="/static/components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="/static/components/paper-toggle-button/paper-toggle-button.html">
+<script type="text/javascript" src="/static/js/polymer-forms.js"></script>
+<script type="text/javascript" src="/static/js/register.js"></script>
+
+<form id="register_form" action="/register" layout vertical center-center>
+    {{ form.hidden_tag() }}
+    <paper-input floatingLabel label={{ form.email.label.text }} name={{ form.email.label.field_id }}>
+    </paper-input>
+    <paper-input floatingLabel label={{ form.password.label.text }} name={{ form.password.label.field_id }} type="password">
+    </paper-input>
+    <paper-input floatingLabel label="Full name" name={{ form.fullname.label.field_id }}>
+    </paper-input>
+    <paper-input floatingLabel multiline rows=3 label="Tell about yourself" name={{ form.about.label.field_id }}>
+    </paper-input>
+    <paper-dropdown-menu label={{ form.profession_id.label.text }} name={{ form.profession_id.label.field_id }} valueattr="value" layout horizontal left>
+    {% for pair in form.profession_id.choices %}
+        <paper-item label="{{ pair[1] }}" value="{{ pair[0] }}"></paper-item>
+    {% endfor %}
+    </paper-dropdown-menu>
+    <div id="is_public" horizontal start-justified layout>
+        <div>{{ form.is_public.label.text }}</div>
+        <paper-toggle-button name={{ form.is_public.label.field_id }} checked=true></paper-toggle-button>
+    </div>
+    <paper-button id="register_button" raised style="background: #4285f4">Register</paper-button>
+</form>
+{% endblock %}

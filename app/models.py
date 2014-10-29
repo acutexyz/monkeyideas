@@ -38,6 +38,9 @@ class Monkey(db.Model):
         
     def set_password(self, password):
         self.password = md5_crypt.encrypt(password) # if md5_crypt.verify(raw, hash):
+        
+    def verify_password(self, password):
+        return md5_crypt.verify(password, self.password)
     
     def __repr__(self):
         return self.fullname

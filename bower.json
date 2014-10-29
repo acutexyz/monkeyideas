@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "core-elements": "Polymer/core-elements#~0.4.2",
-    "paper-elements": "Polymer/paper-elements#~0.4.2"
+    "paper-elements": "Polymer/paper-elements#~0.4.2",
+    "font-roboto": "Polymer/font-roboto#~0.4.2"
   }
 }

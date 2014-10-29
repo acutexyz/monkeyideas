@@ -1,0 +1,16 @@
+paper-dropdown-menu[name=profession_id] {
+    background-color: transparent;
+}
+paper-toggle-button[name=is_public] {
+    margin-left: 20px;
+}
+div#is_public {
+    margin-top: 20px;
+}
+div#is_public > div {
+    color: rgb(103, 103, 103);
+}
+#register_button {
+    color: white;
+    margin-top: 20px;
+}

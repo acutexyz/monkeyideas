@@ -19,13 +19,21 @@
                 </core-toolbar>
                 <core-menu selected="0">
                     <paper-item icon="label-outline" label="Ideas">
-                        <a href="#one"></a>
+                        <a href="/ideas"></a>
                     </paper-item>
                     <paper-item icon="label-outline" label="Monkeys">
-                        <a href="#two"></a>
+                        <a href="/monkeys"></a>
                     </paper-item>
+                    <paper-item icon="label-outline" label="Suggestions">
+                        <a href="/suggestions"></a>
+                    </paper-item>
+                    {% if g.user.ideas.count() > 0 %}
+                    <paper-item icon="label-outline" label="Join requests">
+                        <a href="/requests"></a>
+                    </paper-item>
+                    {% endif %}
                     <paper-item icon="label-outline" label="Profile">
-                        <a href="#two"></a>
+                        <a href="/monkeys/{{ g.user.id }}"></a>
                     </paper-item>
                 </core-menu>
             </nav>

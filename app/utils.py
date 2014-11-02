@@ -7,3 +7,6 @@ def make_json_resp(code, **kwargs):
     resp = jsonify(**kwargs)
     resp.status_code = code
     return resp
+
+class DuplicateSuggestionException(Exception):
+    pass

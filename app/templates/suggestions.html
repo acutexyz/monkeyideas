@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+{% for suggestion in g.user.suggestions %}
+    <div>{{ suggestion.idea.title }}</div>
+{% endfor %}
+</div>
+{% endblock %}

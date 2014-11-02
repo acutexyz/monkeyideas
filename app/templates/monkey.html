@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% from "macros.html" import monkey_card %}
+
+{% block content %}
+<div layout vertical>
+    {{ monkey_card(monkey) }}
+    <!-- authored ideas -->
+    <div>Author of:</div>
+    {% for idea in monkey.ideas %}
+        <div>{{ idea.title }}</div>
+    {% endfor %}
+    <!-- ideas joined -->
+    <div>Member in:</div>
+    {% for idea in monkey.memberin %}
+        <div>{{ idea.title }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

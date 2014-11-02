@@ -1,0 +1,34 @@
+{% macro field_tags(fields) %}
+<div>
+    {% for field in fields %}
+    <a href="#">{{ field.name }}</a>
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro monkey_card(monkey) %}
+<div>
+    <div>
+        <a href="{{ url_for('show_monkey', id=monkey.id) }}">{{ monkey.fullname }}</a>
+    </div>
+    <div>
+        {{ monkey.profession }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_pagination(pagination, view) %}
+<div>
+{% for page in pagination.iter_pages() %}
+    {% if page %}
+        {% if page != pagination.page %}
+            <a href="{{ url_for(view, page=page) }}">{{ page }}</a>
+        {% else %}
+            <strong>{{ page }}</strong>
+        {% endif %}
+    {% else %}
+        <span>…</span>
+    {% endif %}
+{% endfor %}
+</div>
+{% endmacro %}

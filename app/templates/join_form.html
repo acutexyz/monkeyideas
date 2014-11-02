@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="import" href="/static/components/paper-input/paper-input.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<script type="text/javascript" src="/static/js/polymer-forms.js"></script>
+<script type="text/javascript" src="/static/js/join.js"></script>
+
+<form id="join_form" action="/ideas/{{ idea.id }}/join" layout vertical center-center>
+    {{ form.hidden_tag() }}
+    <paper-input floatingLabel multiline rows=7 label={{ form.message.label.text }} name={{ form.message.label.field_id }}>
+    </paper-input>
+    <paper-button id="join_button" raised style="background: #4285f4">Join</paper-button>
+</form>
+{% endblock %}

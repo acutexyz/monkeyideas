@@ -1,24 +1,19 @@
 {% extends "base.html" %}
 
-{% block content %}
-    {% for idea in pagination.items %}
-        <div>
-            <div>{{ idea.title }}</div>
-            <div>{{ idea.body[:20] + '...' }}</div>
-        </div>
-    {% endfor %}
+{% from "macros.html" import field_tags, render_pagination %}
 
-    <div class=pagination>
-        {% for page in pagination.iter_pages() %}
-            {% if page %}
-                {% if page != pagination.page %}
-                    <a href="{{ url_for('list_ideas', page=page) }}">{{ page }}</a>
-                {% else %}
-                    <strong>{{ page }}</strong>
-                {% endif %}
-            {% else %}
-                <span class=ellipsis>…</span>
-            {% endif %}
-        {% endfor %}
-  </div>
+{% block content %}
+    <div layout vertical>
+        <div>
+            {% for idea in pagination.items %}
+                <div>
+                    <div>
+                        <a href="{{ url_for('show_idea', id=idea.id) }}">{{ idea.title }}</a>
+                    </div>
+                    {{ field_tags(idea.fields) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ render_pagination(pagination, 'list_ideas') }}
+    </div>
 {% endblock %}

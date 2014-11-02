@@ -44,6 +44,15 @@ $(document).ready(function(){
                             data[name].push(this.getAttribute('value'));
                         }
                         break;
+                    case 'paper-radio-group':
+                        if (this.selected !== null) {
+                            data[name] = this.selected;
+                        }
+                        break;
+                    case 'paper-item':
+                    case 'paper-radio-button':
+                        console.log("Do not use 'name' attribute on paper-item or paper-radio-button, instead use 'value' attribute and on parent paper-dropdown-menu or paper-radio-group set valueattr=value");
+                        break;
                     default:
                         $this = $(this);
                         if ($this.val() !== null) {

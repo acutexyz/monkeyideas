@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% from "macros.html" import field_tags, monkey_card %}
+
+{% block content %}
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+
+<div layout vertical>
+    <!-- idea -->
+    <div>
+        <div class="author">{{ monkey_card(idea.author) }}</div>
+        <div>{{ idea.title }}</div>
+        <div>{{ idea.body }}</div>
+    </div>
+    <!-- fields -->
+    {{ field_tags(idea.fields) }}
+    <!-- team -->
+    {% if idea.monkeys|length > 0 %}
+    <div>Team:</div>
+    <div>
+        {% for monkey in idea.monkeys %}
+            {{ monkey_card(monkey) }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- join -->
+    {% if g.user.is_author_of(idea) %}
+        <!-- todo -->
+    {% elif g.user.is_member_of(idea) %}
+        <div>You are a member of this idea</div>
+    {% elif g.user.requested_to_join(idea) %}
+        <div>You requested to join this idea</div>
+    {% else %}
+    <div horizontal end-justified layout>
+        <a href="/ideas/{{ idea.id }}/join"><paper-button raised>Join</paper-button></a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

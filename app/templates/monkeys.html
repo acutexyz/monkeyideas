@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% from "macros.html" import monkey_card, render_pagination %}
+
+{% block content %}
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+    <div layout vertical>
+        <div>
+            {% for monkey in pagination.items %}
+                {{ monkey_card(monkey) }}
+                {% set count = g.user.suggestions_made(monkey) %}
+                {% if count > 0 %}
+                    <div>You suggested {{ count }} idea(s)</div>
+                {% endif %}
+                {% if g.user.ideas.all()|count > count %}
+                    <a href="/monkeys/{{ monkey.id }}/suggest"><paper-button>Suggest</paper-button></a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {{ render_pagination(pagination, 'list_monkeys') }}
+    </div>
+{% endblock %}

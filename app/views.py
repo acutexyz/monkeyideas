@@ -16,6 +16,8 @@ def load_user(userId):
 @app.before_request
 def before_request():
     g.user = current_user
+    if current_user.is_authenticated() and current_user.ideas.count() > 0:
+        g.user.join_requests = JoinRequest.query.join(Idea).join(Monkey).filter(Monkey.id==current_user.id, JoinRequest.status==JoinRequestStatus.SENT).count()
     
 @app.errorhandler(404)
 def page_not_found(error):
@@ -196,3 +198,23 @@ def list_join_requests():
 @login_required
 def list_suggestions():
     return render_template("suggestions.html")
+
+@app.route('/requests/<int:id>/<string:action>', methods=['POST'])
+@login_required
+def accept_decline_request(id, action):
+    if action != 'accept' and action != 'decline':
+        return make_json_resp(400, error="Wrong action")
+    
+    jr = JoinRequest.query.get(id)
+    if jr is None:
+        abort(404)
+    
+    if jr.idea.author_id != current_user.id:
+        return make_json_resp(403, error="Not authorized")
+    
+    jr.status = JoinRequestStatus.ACCEPTED if action == 'accept' else JoinRequestStatus.DECLINED
+    if action == 'accept':
+        jr.idea.monkeys.append(jr.monkey)
+    db.session.commit()
+    
+    return make_json_resp(200)

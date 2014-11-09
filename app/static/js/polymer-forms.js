@@ -14,6 +14,8 @@ $(document).ready(function(){
         
         submitButton.click(function(e) {
             var inputs = form.find('[name]');
+            var button = this;
+            button.disabled = true;
             // client side validation
             // for (var i = 0, l = inputs.length; i < l; ++i) {
             //     if (inputs[i].invalid) {
@@ -85,6 +87,7 @@ $(document).ready(function(){
                         });
                     }
                 }
+                button.disabled = false;
             });
         });
         

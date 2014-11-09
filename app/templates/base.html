@@ -1,9 +1,12 @@
 <!doctype html>
 <html>
     <head>
+        <script type="text/javascript" src="/static/components/platform/platform.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/macros.css">
         <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="/static/js/base.js"></script>
+        <link rel="import" href="/static/components/polymer/polymer.html">
         <link rel="import" href="/static/components/core-scaffold/core-scaffold.html">
         <link rel="import" href="/static/components/core-toolbar/core-toolbar.html">
         <link rel="import" href="/static/components/core-menu/core-menu.html">
@@ -14,34 +17,39 @@
     <body unresolved fullbleed>
         <core-scaffold id="scaffold">
             <nav>
-                <core-toolbar>
+                <core-toolbar id="corner">
                     <span>Monkeys' Ideas</span>
                 </core-toolbar>
-                <core-menu selected="0">
+                <core-menu>
+                    {% if g.user.is_authenticated() %}
                     <paper-item icon="label-outline" label="Ideas">
                         <a href="/ideas"></a>
                     </paper-item>
                     <paper-item icon="label-outline" label="Monkeys">
                         <a href="/monkeys"></a>
                     </paper-item>
-                    <paper-item icon="label-outline" label="Suggestions">
+                    <paper-item icon="label-outline" label="Suggestions ({{ g.user.suggestions.count() }})">
                         <a href="/suggestions"></a>
                     </paper-item>
                     {% if g.user.ideas.count() > 0 %}
-                    <paper-item icon="label-outline" label="Join requests">
+                    <paper-item icon="label-outline" label="Join requests ({{ g.user.join_requests }})">
                         <a href="/requests"></a>
                     </paper-item>
                     {% endif %}
-                    <paper-item icon="label-outline" label="Profile">
+                    <paper-item icon="label-outline" label="{{ g.user.fullname }}">
                         <a href="/monkeys/{{ g.user.id }}"></a>
                     </paper-item>
+                    {% else %}
+                    <paper-item icon="label-outline" label="About">
+                        <a href="/about"></a>
+                    </paper-item>
+                    {% endif %}
                 </core-menu>
             </nav>
-            
             <!-- flex makes the bar span across the top of the main content area -->
             <core-toolbar tool flex>
                 <!-- flex spaces this element and jusifies the icons to the right-side -->
-                <div flex>Application</div>
+                <div flex>{% if title %}{{ title }}{% endif %}</div>
                 <core-icon-button icon="add"></core-icon-button>
                 <core-icon-button id="logout" icon="exit-to-app"></core-icon-button>
                 <form action="/logout" id="logout_form" method="post" style="display:none">

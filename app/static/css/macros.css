@@ -1,0 +1,41 @@
+.monkey_card {
+    border: 1px solid silver;
+    padding: 30px;
+    margin: 10px;
+    max-width: 350px
+}
+
+.monkey_card img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid silver;
+    border-radius: 50%;
+}
+
+.monkey_card .left {
+    float: left;
+    margin-right: 15px;
+}
+
+.monkey_card .lower {
+    clear: both;
+    padding-top: 20px;
+}
+
+.monkey_card .right {
+    padding-top: 10px;
+}
+
+.monkey_card .about {
+    font-style: italic;
+    color: #7D7D7D;
+}
+
+.monkey_card .fullname {
+    font-size: 1.2rem;
+}
+
+.monkey_card .profession {
+    font-size: 1.3rem;
+    margin-top: 3px;
+}

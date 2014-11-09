@@ -7,12 +7,24 @@
 {% endmacro %}
 
 {% macro monkey_card(monkey) %}
-<div>
-    <div>
-        <a href="{{ url_for('show_monkey', id=monkey.id) }}">{{ monkey.fullname }}</a>
+<div class="monkey_card">
+    <div class="upper">
+        <div class="left">
+            <img src="/static/img/1.jpg">
+        </div>
+        <div class="right">
+            <div class="fullname">
+                <a href="{{ url_for('show_monkey', id=monkey.id) }}">{{ monkey.fullname }}</a>
+            </div>
+            <div class="profession">
+                {{ monkey.profession }}
+            </div>
+        </div>
     </div>
-    <div>
-        {{ monkey.profession }}
+    <div class="lower">
+        <div class="about">
+            {{ monkey.about }}
+        </div>
     </div>
 </div>
 {% endmacro %}

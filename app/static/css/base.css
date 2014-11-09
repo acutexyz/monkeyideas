@@ -1,40 +1,61 @@
 /* 
- *  material design styling 
- */
+*  material design styling 
+*/
 
 body {
-  font-family: "RobotoDraft";
-  font-weight: 300;
+    font-family: "RobotoDraft";
+    font-weight: 300;
 }
 
 div#wrapper {
-  width: 85%;
-  height: 85%;
-  overflow: hidden;
+    width: 85%;
+    height: 85%;
+    overflow: hidden;
 }
 
 core-animated-pages > * {
-  border-radius: 5px;
-  font-size: 50px;
-  background-color: white;
+    border-radius: 5px;
+    font-size: 50px;
+    background-color: white;
+}
+
+body core-toolbar { /* firefox fix */
+    background-color: #03a9f4;
+    color: #fff;
 }
 
 body /deep/ core-toolbar {
-  background-color: #03a9f4;
-  color: #fff;
+    background-color: #03a9f4;
+    color: #fff;
 }
 
 core-menu {
-  color: #01579b;
-  margin: 10px 0 0 0;
+    color: #01579b;
+    margin: 10px 0 0 0;
 }
 
 core-menu > paper-item {
-  transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;
 }
 
 core-menu > paper-item.core-selected {
-  background: #e1f5fe;
+    background: #e1f5fe;
+}
+
+core-scaffold::shadow [drawer] { /* chrome */
+    background-color: rgba(243, 241, 255, 1);
+}
+
+core-scaffold::shadow [main] { /* chrome */
+    background-color: rgba(255, 255, 255, 1);
+}
+
+core-scaffold [drawer] { /* firefox */
+    background-color: rgba(243, 241, 255, 1);
+}
+
+core-scaffold [main] { /* firefox */
+    background-color: rgba(255, 255, 255, 1);
 }
 
 /* --- */

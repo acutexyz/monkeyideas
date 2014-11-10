@@ -59,3 +59,8 @@ core-scaffold [main] { /* firefox */
 }
 
 /* --- */
+
+.label {
+    color: rgb(140, 140, 140);
+    margin-top: 3px;
+}

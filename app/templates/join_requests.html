@@ -5,21 +5,26 @@
 {% set title="Join requests" %}
 
 {% block content %}
-<link rel="import" href="/static/components/core-icons/core-icons.html">
 <link rel="import" href="/static/components/paper-fab/paper-fab.html">
+<link rel="import" href="/static/components/core-icon/core-icon.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-shadow/paper-shadow.html">
+<link rel="stylesheet" type="text/css" href="/static/css/macros.css">
+<link rel="stylesheet" type="text/css" href="/static/css/join_requests.css">
 
-<div>
+<div layout vertical class="wrapper">
 {% for idea in ideas %}
     <div class="idea">
         <div class="title">
-            <a href="/ideas/{{idea.id }}">{{ idea.title }}</a>
+            <core-icon icon="star-rate"></core-icon>
+            <a href="/ideas/{{idea.id }}">{{ idea.title }}</a>:
         </div>
         {% set requests = idea.requests.filter_by(status=0).all() %}
         {% if requests|count > 0%}
             {% for request in requests %}
                 <div class="join_request">
                     <div class="monkey">{{ monkey_card(request.monkey) }}</div>
-                    <div class="message">{{ request.message }}</div>
+                    <div class="message">{{ request.message }}:</div>
                     <div class="actions">
                         <paper-fab icon="check" value={{ request.id }} style="background: #0f9d58"></paper-fab>
                         <paper-fab icon="clear" value={{ request.id }}></paper-fab>

@@ -1,7 +1,7 @@
 {% macro field_tags(fields) %}
-<div>
+<div class="fields">
     {% for field in fields %}
-    <a href="#">{{ field.name }}</a>
+        <a href="#" class="field">{{ field.name }}</a>
     {% endfor %}
 </div>
 {% endmacro %}
@@ -26,6 +26,18 @@
             {{ monkey.about }}
         </div>
     </div>
+    <paper-shadow z="1"></paper-shadow>
+</div>
+{% endmacro %}
+
+{% macro idea_card(idea) %}
+<div class="idea">
+    <div class="title">
+        <core-icon icon="star-rate"></core-icon>
+        <a href="{{ url_for('show_idea', id=idea.id) }}">{{ idea.title }}</a>
+    </div>
+    {{ field_tags(idea.fields) }}
+    <paper-shadow z="1"></paper-shadow>
 </div>
 {% endmacro %}
 

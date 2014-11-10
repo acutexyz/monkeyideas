@@ -1,39 +1,53 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import field_tags, monkey_card %}
+{% set title="Idea info" %}
+
+{% from "macros.html" import field_tags, monkey_card, idea_card %}
 
 {% block content %}
+<link rel="import" href="/static/components/core-icon/core-icon.html">
 <link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-shadow/paper-shadow.html">
+<link rel="stylesheet" type="text/css" href="/static/css/macros.css">
+<link rel="stylesheet" type="text/css" href="/static/css/idea.css">
 
-<div layout vertical>
+<div class="wrapper" layout vertical>
     <!-- idea -->
-    <div>
-        <div class="author">{{ monkey_card(idea.author) }}</div>
-        <div>{{ idea.title }}</div>
-        <div>{{ idea.body }}</div>
+    <div class="full_idea">
+        {{ idea_card(idea) }}
+        
+        <h4>Description:</h4>
+        <div class="body">{{ idea.body }}</div>
     </div>
-    <!-- fields -->
-    {{ field_tags(idea.fields) }}
-    <!-- team -->
-    {% if idea.monkeys|length > 0 %}
-    <div>Team:</div>
-    <div>
-        {% for monkey in idea.monkeys %}
-            {{ monkey_card(monkey) }}
-        {% endfor %}
-    </div>
-    {% endif %}
+    
     <!-- join -->
     {% if g.user.is_author_of(idea) %}
         <!-- todo -->
     {% elif g.user.is_member_of(idea) %}
-        <div>You are a member of this idea</div>
+        <div class="label">You are a member of this idea</div>
     {% elif g.user.requested_to_join(idea) %}
-        <div>You requested to join this idea</div>
+        <div class="label">You requested to join this idea</div>
     {% else %}
-    <div horizontal end-justified layout>
-        <a href="/ideas/{{ idea.id }}/join"><paper-button raised>Join</paper-button></a>
-    </div>
+        <div horizontal end-justified layout>
+            <a href="/ideas/{{ idea.id }}/join">
+                <paper-button raised>
+                    <core-icon icon="add"></core-icon>
+                    Join
+                </paper-button>
+            </a>
+        </div>
+    {% endif %}
+    
+    <!-- author -->
+    <h3>Author:</h3>
+    {{ monkey_card(idea.author) }}
+    
+    <!-- team -->
+    {% if idea.monkeys|length > 0 %}
+        <h3>Team</h3>
+        {% for monkey in idea.monkeys %}
+            {{ monkey_card(monkey) }}
+        {% endfor %}
     {% endif %}
 </div>
 {% endblock %}

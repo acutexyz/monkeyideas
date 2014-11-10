@@ -1,5 +1,7 @@
+/* monkey_card */
+
 .monkey_card {
-    border: 1px solid silver;
+/*     border: 1px solid silver; */
     padding: 30px;
     margin: 10px;
     max-width: 350px
@@ -38,4 +40,38 @@
 .monkey_card .profession {
     font-size: 1.3rem;
     margin-top: 3px;
+}
+
+/* fields */
+
+.fields {
+    margin: 10px 0px 0px 28px;
+}
+
+.field {
+    padding: 3px;
+    border: 1px solid silver;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-right: 3px;
+    background-color: #F6F5C2;
+    color: #5F5B34;
+}
+
+.field:hover {
+    background-color: #5F5B34;
+    color: white;
+}
+
+/* ideas */
+
+.idea {
+    margin-top: 35px;
+    padding: 13px;
+}
+.idea .title {
+    font-size: 1.3rem;
+}
+.title core-icon[icon='star-rate'] {
+    color: orange;
 }

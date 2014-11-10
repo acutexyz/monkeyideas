@@ -5,10 +5,16 @@
 {% set title="Suggestions" %}
 
 {% block content %}
+<link rel="import" href="/static/components/core-icon/core-icon.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-shadow/paper-shadow.html">
+<link rel="stylesheet" type="text/css" href="/static/css/macros.css">
 <link rel="stylesheet" type="text/css" href="/static/css/suggestions.css">
+
 {% for suggestion in g.user.suggestions %}
     <div class="suggestion">
         <div class="idea">
+            <core-icon icon="star-rate"></core-icon>
             <a href="/ideas/{{suggestion.idea.id }}">{{ suggestion.idea.title }}</a>
             <span> by: </span>
         </div>

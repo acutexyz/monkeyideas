@@ -1,0 +1,17 @@
+.title core-icon[icon='star-rate'] {
+    color: orange;
+}
+
+.wrapper {
+    width: 400px;
+}
+
+.message {
+    margin: 5px 0px;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.message, .actions {
+    text-align: center;
+}

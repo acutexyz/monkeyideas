@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import field_tags, render_pagination %}
+{% from "macros.html" import field_tags, render_pagination, idea_card %}
 
 {% set title="Ideas" %}
 
 {% block content %}
-    <div layout vertical>
-        <div>
-            {% for idea in pagination.items %}
-                <div>
-                    <div>
-                        <a href="{{ url_for('show_idea', id=idea.id) }}">{{ idea.title }}</a>
-                    </div>
-                    {{ field_tags(idea.fields) }}
-                </div>
-            {% endfor %}
-        </div>
-        {{ render_pagination(pagination, 'list_ideas') }}
+<link rel="stylesheet" type="text/css" href="/static/css/ideas.css">
+<link rel="import" href="/static/components/core-icon/core-icon.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+
+<div layout vertical>
+    <div class="ideas">
+        {% for idea in pagination.items %}
+            {{ idea_card(idea) }}
+        {% endfor %}
     </div>
+    {{ render_pagination(pagination, 'list_ideas') }}
+</div>
 {% endblock %}

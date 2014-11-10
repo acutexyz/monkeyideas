@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import monkey_card %}
+{% set title="Monkey info" %}
+
+{% from "macros.html" import monkey_card, idea_card %}
 
 {% block content %}
-<div layout vertical>
+<link rel="import" href="/static/components/core-icon/core-icon.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-shadow/paper-shadow.html">
+<link rel="stylesheet" type="text/css" href="/static/css/macros.css">
+<link rel="stylesheet" type="text/css" href="/static/css/monkey.css">
+
+<div class="wrapper" layout vertical>
     {{ monkey_card(monkey) }}
     <!-- authored ideas -->
-    <div>Author of:</div>
+    <h3>Author of:</h3>
     {% for idea in monkey.ideas %}
-        <div>{{ idea.title }}</div>
+        {{ idea_card(idea) }}
     {% endfor %}
     <!-- ideas joined -->
-    <div>Member in:</div>
+    <h3>Member in:</h3>
     {% for idea in monkey.memberin %}
-        <div>{{ idea.title }}</div>
+        {{ idea_card(idea) }}
     {% endfor %}
 </div>
 {% endblock %}

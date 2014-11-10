@@ -5,6 +5,7 @@
 {% set title="Monkeys" %}
 {% block content %}
 <link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="/static/components/paper-shadow/paper-shadow.html">
 <link rel="stylesheet" type="text/css" href="/static/css/monkeys.css">
 
 <div layout vertical>
@@ -13,7 +14,7 @@
             {{ monkey_card(monkey) }}
             {% set count = g.user.suggestions_made(monkey) %}
             {% if count > 0 %}
-                <div class="align-right">
+                <div class="align-right label">
                     You suggested {{ count }} idea(s) to this monkey
                 </div>
             {% endif %}

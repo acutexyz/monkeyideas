@@ -2,3 +2,7 @@ paper-button {
     background: green;
     color: white;
 }
+
+.wrapper {
+    margin: 0px 10px;
+}

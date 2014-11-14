@@ -53,9 +53,10 @@
     border: 1px solid silver;
     text-decoration: none;
     font-size: 0.9rem;
-    margin-right: 3px;
+    margin: 3px 3px 3px 0px;
     background-color: #F6F5C2;
     color: #5F5B34;
+    display: inline-block;
 }
 
 .field:hover {
@@ -74,4 +75,10 @@
 }
 .title core-icon[icon='star-rate'] {
     color: orange;
+}
+
+/* pagination */
+.pages {
+    text-align: center;
+    margin: 10px 0px;
 }

@@ -7,16 +7,16 @@ from app.forms import IdeaForm
 from app.utils import make_json_resp
 from config import ITEMS_PER_PAGE
 
-from app.database import db
+from app.models import db
 
-ideas = Blueprint('ideas', __name__)
+ideas = Blueprint('ideas', __name__, template_folder='../templates/ideas')
 
 @ideas.route('/ideas', methods=['GET'])
 @ideas.route('/ideas/p/<int:page>', methods=['GET'])
 @login_required
 def list_ideas(page=1):
     pagination = Idea.query.paginate(page, ITEMS_PER_PAGE)
-    return render_template("ideas/ideas.html", pagination=pagination)
+    return render_template("ideas.html", pagination=pagination)
 
 @ideas.route('/ideas/<int:id>', methods=['GET'])
 @login_required
@@ -24,7 +24,7 @@ def show_idea(id):
     idea = Idea.query.get(id)
     if idea is None:
         abort(404)
-    return render_template("ideas/idea.html", idea=idea)
+    return render_template("idea.html", idea=idea)
 
 @ideas.route('/ideas/new', methods=['GET', 'POST'])
 @login_required
@@ -34,7 +34,7 @@ def add_idea():
     form.fields.choices = [(f.id, f.name) for f in Field.query.all()]
     
     if request.method == 'GET':
-        return render_template('ideas/idea_form.html', form=form)
+        return render_template('idea_form.html', form=form)
     
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)

@@ -6,9 +6,9 @@ from flask import request, render_template, redirect, url_for, abort
 from app.forms import SuggestForm
 from app.utils import make_json_resp, DuplicateSuggestionException
 
-from app.database import db
+from app.models import db
 
-suggestions = Blueprint('suggestions', __name__, template_folder='templates/suggestions')
+suggestions = Blueprint('suggestions', __name__, template_folder='../templates/suggestions')
 
 @suggestions.route('/monkeys/<int:monkey_id>/suggest', methods=['GET', 'POST'])
 @login_required
@@ -22,7 +22,7 @@ def suggest_to_user(monkey_id):
     form.idea_id.choices = [(i.id, i.title) for i in ideas]
     
     if request.method == 'GET':
-        return render_template("suggestions/suggest_form.html", form=form, monkey=monkey)
+        return render_template("suggest_form.html", form=form, monkey=monkey)
     
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)
@@ -39,4 +39,4 @@ def suggest_to_user(monkey_id):
 @suggestions.route('/suggestions', methods=['GET'])
 @login_required
 def list_suggestions():
-    return render_template("suggestions/suggestions.html")
+    return render_template("suggestions.html")

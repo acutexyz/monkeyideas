@@ -38,8 +38,8 @@ core-menu > paper-item {
     transition: all 300ms ease-in-out;
 }
 
-core-menu > paper-item.core-selected {
-    background: #e1f5fe;
+core-menu a.core-selected > paper-item{
+    background: #C8EBFB;
 }
 
 core-scaffold::shadow [drawer] { /* chrome */
@@ -63,4 +63,17 @@ core-scaffold [main] { /* firefox */
 .label {
     color: rgb(140, 140, 140);
     margin-top: 3px;
+}
+
+core-toolbar a {
+    color: white;
+    text-decoration: none;
+}
+core-menu a {
+    color: #01579b;
+    text-decoration: none;
+}
+
+div#content {
+    margin: 0px 10px;
 }

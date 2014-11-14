@@ -92,7 +92,8 @@ $(document).ready(function(){
         });
         
         form.on('keyup', function(e) {
-            if (e.keyCode == 13) {    // Enter
+            // if it's Enter and focus is not on polymer textarea
+            if (e.keyCode == 13 && !$('paper-input[multiline]').is(':focus')) {
                 submitButton.click();
             }
         });

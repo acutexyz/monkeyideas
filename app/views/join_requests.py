@@ -6,9 +6,9 @@ from flask import request, render_template, redirect, url_for, abort
 from app.forms import JoinRequestForm
 from app.utils import make_json_resp
 
-join_requests = Blueprint('join_requests', __name__, template_folder='templates/join_requests')
+join_requests = Blueprint('join_requests', __name__, template_folder='../templates/join_requests')
 
-from app.database import db
+from app.models import db
 
 @join_requests.route('/ideas/<int:idea_id>/join', methods=['GET', 'POST'])
 @login_required
@@ -20,7 +20,7 @@ def request_to_join(idea_id):
     form = JoinRequestForm()
     
     if request.method == 'GET':
-        return render_template("join_requests/join_form.html", form=form, idea=idea)
+        return render_template("join_form.html", form=form, idea=idea)
     
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)
@@ -38,7 +38,7 @@ def request_to_join(idea_id):
 @login_required
 def list_join_requests():
     ideas = Idea.query.filter_by(author_id=current_user.id)
-    return render_template("join_requests/join_requests.html", ideas=ideas)
+    return render_template("join_requests.html", ideas=ideas)
 
 @join_requests.route('/requests/<int:id>/<string:action>', methods=['POST'])
 @login_required

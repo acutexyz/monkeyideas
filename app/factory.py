@@ -1,23 +1,20 @@
 from flask import Flask, g
 from flask.ext.login import LoginManager, current_user
-from app.monkeys.models import Monkey, Profession
-from app.ideas.models import Idea, Field
-from app.join_requests.models import JoinRequest, JoinRequestStatus
-from app.suggestions.models import Suggestion
+from app.models import *
 
 def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_pyfile(config_filename)
     
-    from app.database import db
+    from app.models import db
         
     login_manager = LoginManager()
     
-    from app.auth.views import auth
-    from app.monkeys.views import monkeys
-    from app.ideas.views import ideas
-    from app.join_requests.views import join_requests
-    from app.suggestions.views import suggestions
+    from app.views.auth import auth
+    from app.views.monkeys import monkeys
+    from app.views.ideas import ideas
+    from app.views.join_requests import join_requests
+    from app.views.suggestions import suggestions
         
     configure_database(app, db)
     configure_login_manager(app, login_manager)

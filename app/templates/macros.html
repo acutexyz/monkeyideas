@@ -42,7 +42,7 @@
 {% endmacro %}
 
 {% macro render_pagination(pagination, view) %}
-<div>
+<div class="pages">
 {% for page in pagination.iter_pages() %}
     {% if page %}
         {% if page != pagination.page %}

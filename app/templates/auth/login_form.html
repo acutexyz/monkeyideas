@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% set title="Welcome!" %}
+
 {% block content %}
 <link rel="stylesheet" type="text/css" href="/static/css/login.css">
 <link rel="import" href="/static/components/paper-input/paper-input.html">
@@ -8,9 +11,9 @@
 
 <form id="login_form" action="/login" layout vertical center-center fit>
     {{ form.hidden_tag() }}
-    <paper-input label={{ form.email.label.text }} name={{ form.email.label.field_id }} layout vertical>
+    <paper-input floatingLabel label={{ form.email.label.text }} name={{ form.email.label.field_id }} layout vertical>
     </paper-input>
-    <paper-input label={{ form.password.label.text }} name={{ form.password.label.field_id }} type="password" layout vertical>
+    <paper-input floatingLabel label={{ form.password.label.text }} name={{ form.password.label.field_id }} type="password" layout vertical>
     </paper-input>
     <paper-button id="login_button" raised style="background: #4285f4">Login</paper-button>
 </form>

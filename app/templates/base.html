@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
         <script type="text/javascript" src="/static/components/platform/platform.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/css/base.css">
         <link rel="stylesheet" type="text/css" href="/static/css/macros.css">
@@ -13,36 +15,47 @@
         <link rel="import" href="/static/components/core-icon-button/core-icon-button.html">
         <link rel="import" href="/static/components/paper-item/paper-item.html">
         <link rel="import" href="/static/components/font-roboto/roboto.html">
+        <link rel="import" href="/static/components/core-icons/social-icons.html">
     </head>
     <body unresolved fullbleed>
         <core-scaffold id="scaffold">
             <nav>
                 <core-toolbar id="corner">
-                    <span>Monkeys' Ideas</span>
+                    <a href="/">Monkeys' Ideas</a>
                 </core-toolbar>
-                <core-menu>
+                <core-menu {% if selected is defined %}selected="{{ selected }}"{% endif %}>
                     {% if g.user.is_authenticated() %}
-                    <paper-item icon="label-outline" label="Ideas">
-                        <a href="/ideas"></a>
-                    </paper-item>
-                    <paper-item icon="label-outline" label="Monkeys">
-                        <a href="/monkeys"></a>
-                    </paper-item>
-                    <paper-item icon="label-outline" label="Suggestions ({{ g.user.suggestions.count() }})">
-                        <a href="/suggestions"></a>
-                    </paper-item>
+                    <a href="/ideas">
+                        <paper-item icon="label-outline" label="Ideas"> 
+                        </paper-item>
+                    </a>
+                    <a href="/monkeys">
+                        <paper-item icon="label-outline" label="Monkeys" noink>
+                        </paper-item>
+                    </a>
+                    <a href="/suggestions">
+                        <paper-item icon="label-outline" label="Suggestions ({{ g.user.suggestions.count() }})">
+                        </paper-item>
+                    </a>
                     {% if g.user.ideas.count() > 0 %}
-                    <paper-item icon="label-outline" label="Join requests ({{ g.user.join_requests }})">
-                        <a href="/requests"></a>
-                    </paper-item>
+                    <a href="/requests">
+                        <paper-item icon="label-outline" label="Join requests ({{ g.user.join_requests }})">
+                        </paper-item>
+                    </a>
                     {% endif %}
-                    <paper-item icon="label-outline" label="{{ g.user.fullname }}">
-                        <a href="/monkeys/{{ g.user.id }}"></a>
-                    </paper-item>
+                    <a href="/monkeys/{{ g.user.id }}">
+                        <paper-item icon="label-outline" label="{{ g.user.fullname }}">
+                        </paper-item>
+                    </a>
                     {% else %}
-                    <paper-item icon="label-outline" label="About">
-                        <a href="/about"></a>
-                    </paper-item>
+                    <a href="/register">
+                        <paper-item icon="label-outline" label="Register">
+                        </paper-item>
+                    </a>
+                    <a href="/about">
+                        <paper-item icon="label-outline" label="About">
+                        </paper-item>
+                    </a>
                     {% endif %}
                 </core-menu>
             </nav>
@@ -50,14 +63,22 @@
             <core-toolbar tool flex>
                 <!-- flex spaces this element and jusifies the icons to the right-side -->
                 <div flex>{% if title %}{{ title }}{% endif %}</div>
-                <core-icon-button icon="add"></core-icon-button>
-                <core-icon-button id="logout" icon="exit-to-app"></core-icon-button>
-                <form action="/logout" id="logout_form" method="post" style="display:none">
-                </form>
+                {% if g.user.is_authenticated() %}
+                    <a href="/ideas/new" id="new_idea">
+                        <core-icon-button icon="add"></core-icon-button>
+                    </a>
+                    <core-icon-button id="logout" icon="exit-to-app"></core-icon-button>
+                    <form action="/logout" id="logout_form" method="post" style="display:none">
+                    </form>
+                {% else %}
+                    <a href="/register" id="register">
+                        <core-icon-button icon="social:person-add"></core-icon-button>
+                    </a>
+                {% endif %}
             </core-toolbar>
             
             <!-- content -->
-            <div layout horizontal center-center>
+            <div layout horizontal center-center id="content">
                 {% block content %}
                 {% endblock %}
             </div>

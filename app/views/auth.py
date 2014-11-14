@@ -6,15 +6,15 @@ from app.models import Profession, Monkey
 from app.forms import LoginForm, RegistrationForm
 from app.utils import make_json_resp
 
-from app.database import db
+from app.models import db
 
-auth = Blueprint('auth', __name__, template_folder='templates/auth')
+auth = Blueprint('auth', __name__, template_folder='../templates/auth')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if request.method == 'GET':
-        return render_template("auth/login_form.html", form=form)
+        return render_template("login_form.html", form=form)
     
     if form.validate_on_submit():
         user = Monkey.query.filter_by(email=form.email.data).first()
@@ -41,7 +41,7 @@ def register():
     form.profession_id.choices = [(p.id, p.name) for p in Profession.query.all()]
     
     if request.method == 'GET':
-        return render_template('auth/register_form.html', form=form)
+        return render_template('register_form.html', form=form)
     
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)

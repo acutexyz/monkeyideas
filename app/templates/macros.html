@@ -14,7 +14,7 @@
         </div>
         <div class="right">
             <div class="fullname">
-                <a href="{{ url_for('show_monkey', id=monkey.id) }}">{{ monkey.fullname }}</a>
+                <a href="{{ url_for('monkeys.show_monkey', id=monkey.id) }}">{{ monkey.fullname }}</a>
             </div>
             <div class="profession">
                 {{ monkey.profession }}
@@ -34,7 +34,7 @@
 <div class="idea">
     <div class="title">
         <core-icon icon="star-rate"></core-icon>
-        <a href="{{ url_for('show_idea', id=idea.id) }}">{{ idea.title }}</a>
+        <a href="{{ url_for('ideas.show_idea', id=idea.id) }}">{{ idea.title }}</a>
     </div>
     {{ field_tags(idea.fields) }}
     <paper-shadow z="1"></paper-shadow>

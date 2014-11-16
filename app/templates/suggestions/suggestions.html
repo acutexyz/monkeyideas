@@ -12,14 +12,16 @@
 <link rel="stylesheet" type="text/css" href="/static/css/macros.css">
 <link rel="stylesheet" type="text/css" href="/static/css/suggestions.css">
 
-{% for suggestion in g.user.suggestions %}
-    <div class="suggestion">
-        <div class="idea">
-            <core-icon icon="star-rate"></core-icon>
-            <a href="/ideas/{{suggestion.idea.id }}">{{ suggestion.idea.title }}</a>
-            <span> by: </span>
+<div layout vertical class="wrapper">
+    {% for suggestion in g.user.suggestions %}
+        <div class="suggestion">
+            <div class="idea">
+                <core-icon icon="star-rate"></core-icon>
+                <a href="/ideas/{{suggestion.idea.id }}">{{ suggestion.idea.title }}</a>
+                <span> by: </span>
+            </div>
+            {{ monkey_card(suggestion.idea.author) }}
         </div>
-        {{ monkey_card(suggestion.idea.author) }}
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
 {% endblock %}

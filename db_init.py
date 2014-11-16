@@ -1,5 +1,5 @@
 from app.factory import create_app
-from app.models import db, Field, Profession, IdeaStatus
+from app.models import db, Field, Profession, IdeaStatus, Monkey
 import os
 
 app = create_app(os.getcwd() + '/config.py')
@@ -11,7 +11,13 @@ db.app = app
 db.drop_all()
 db.create_all()
 
-fields = ['E-commerce/Commerce', 'Education', 'Medicine', 'Social networks', 'Automation Solutions', 'Finance']
+fields = ['Education', 
+          'Healthcare', 
+          'Communications', 
+          'E-commerce/Commerce',
+          'Business Automation', 
+          'Finance/Marketing', 
+          'Social Networks']
 
 for name in fields:
     field = Field(name)
@@ -32,6 +38,14 @@ for name in idea_statuses:
     status = IdeaStatus(name)
     db.session.add(status)
     
+db.session.commit()
+
+monkey = Monkey("aidanxyz@gmail.com", "Aidan Zhakypov", 
+                "Software developer from Central Asia. Passionate about web technologies.", 1)
+monkey.set_password("123qwe")
+
+db.session.add(monkey)
+
 db.session.commit()
 
 ctx.pop()

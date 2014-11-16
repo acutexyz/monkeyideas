@@ -14,18 +14,24 @@
     <div class="monkeys">
         {% for monkey in pagination.items %}
             {{ monkey_card(monkey) }}
-            {% set count = g.user.suggestions_made(monkey) %}
-            {% if count > 0 %}
-                <div class="align-right label">
-                    You suggested {{ count }} idea(s) to this monkey
-                </div>
-            {% endif %}
-            {% if g.user.ideas.all()|count > count %}
-                <div class="align-right">        
-                    <a href="/monkeys/{{ monkey.id }}/suggest">
-                        <paper-button>Suggest</paper-button>
-                    </a>
-                </div>
+            {% if g.user.id != monkey.id %}
+                {% set count = g.user.suggestions_made_to(monkey) %}
+                {% if count > 0 %}
+                    <div class="align-right label">
+                        You suggested {{ count }} idea(s) to this monkey
+                    </div>
+                {% endif %}
+                {% if g.user.ideas.all()|count > count %}
+                    <div class="align-right">        
+                        <a href="/monkeys/{{ monkey.id }}/suggest">
+                            <paper-button>Suggest</paper-button>
+                        </a>
+                    </div>
+                {% endif %}
+            {% else %}
+            <div class="align-right label">
+                It's you ;)
+            </div>
             {% endif %}
         {% endfor %}
     </div>

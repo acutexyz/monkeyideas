@@ -5,7 +5,7 @@ import pytest
 def create_new_monkeys(session):
     """Creates and returns a new monkey.
     Since monkey is bound to a profession, it also 
-    creates a new profession if there is no one.
+    creates a new profession if there isn't one.
     """
     profession = Profession.query.first()
     if profession is None:
@@ -36,7 +36,7 @@ def create_idea_by_monkey(session, monkey):
     
 def test_author(session):
     """Make sure that author of an idea can't 
-    request to join his/her own idea
+    joinrequest his/her own idea
     """
     monkey = create_new_monkeys(session)[0]
     idea = create_idea_by_monkey(session, monkey)
@@ -47,7 +47,7 @@ def test_author(session):
     
 def test_already_requested(session):
     """Make sure that monkey can't joinrequest twice while 
-   previous request hasn't been accepted or declined)
+   previous request hasn't been accepted or declined.
     """
     monkey, monkey2 = create_new_monkeys(session)
     idea = create_idea_by_monkey(session, monkey)
@@ -61,7 +61,7 @@ def test_already_requested(session):
     assert ei.value.message == "Monkey had already requested to join this idea"
     
 def test_member(session):
-    """Check that member of an idea can't request to join an idea
+    """Check that member of an idea can't joinrequest this idea
     """
     monkey, monkey2 = create_new_monkeys(session)
     idea = create_idea_by_monkey(session, monkey)
@@ -79,7 +79,7 @@ def test_member(session):
 #
 
 def test_member_author(session):
-    """Make sure that author of an idea can't be added as member
+    """Make sure that author of an idea can't be added as a member
     """
     monkey = create_new_monkeys(session)[0]
     idea = create_idea_by_monkey(session, monkey)

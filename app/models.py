@@ -60,7 +60,7 @@ class Monkey(db.Model):
     def get_id(self):
         return unicode(self.id)
     
-    def suggestions_made(self, monkey):
+    def suggestions_made_to(self, monkey):
         """Returns the number of suggestions already made 
         by this (self) monkey to given monkey.
         """
@@ -162,6 +162,8 @@ class Idea(db.Model):
             raise Exception("Monkey is already a member")
             
         self.monkeys.append(monkey)
+        
+        # todo: remove suggestions of this idea made to monkey 
     
     
 JoinRequestStatus = enum(

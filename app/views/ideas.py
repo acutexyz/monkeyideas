@@ -15,7 +15,7 @@ ideas = Blueprint('ideas', __name__, template_folder='../templates/ideas')
 @ideas.route('/ideas/p/<int:page>', methods=['GET'])
 @login_required
 def list_ideas(page=1):
-    pagination = Idea.query.paginate(page, ITEMS_PER_PAGE)
+    pagination = Idea.query.filter_by(is_public=True).paginate(page, ITEMS_PER_PAGE)
     return render_template("ideas.html", pagination=pagination)
 
 @ideas.route('/ideas/<int:id>', methods=['GET'])

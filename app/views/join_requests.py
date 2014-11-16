@@ -55,7 +55,7 @@ def accept_decline_request(id, action):
     
     if action == 'accept':
         jr.status = JoinRequestStatus.ACCEPTED
-        jr.idea.monkeys.append(jr.monkey)
+        jr.idea.add_member(jr.monkey)
     elif action == 'decline':
         jr.status = JoinRequestStatus.DECLINED
     

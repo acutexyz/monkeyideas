@@ -31,6 +31,8 @@ def suggest_to_user(monkey_id):
         suggestion = Suggestion(monkey.id, form.idea_id.data)
     except DuplicateSuggestionException:
         return make_json_resp(400, idea_id="This idea was already suggested to this monkey")
+    except Exception as e:
+        return make_json_resp(400, idea_id=e.message)
     else:
         db.session.add(suggestion)
         db.session.commit()

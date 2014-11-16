@@ -19,7 +19,7 @@ def home():
 @monkeys.route('/monkeys/p/<int:page>', methods=['GET'])
 @login_required
 def list_monkeys(page=1):
-    pagination = Monkey.query.paginate(page, ITEMS_PER_PAGE)
+    pagination = Monkey.query.filter_by(is_public=True).paginate(page, ITEMS_PER_PAGE)
     return render_template("monkeys.html", pagination=pagination)
 
 @monkeys.route('/monkeys/<int:id>', methods=['GET'])

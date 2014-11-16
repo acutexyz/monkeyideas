@@ -89,11 +89,12 @@ class Monkey(db.Model):
         return self in idea.monkeys
     
     def requested_to_join(self, idea):
-        """Returns True if this monkey already 
-        requested to join this idea
+        """Returns True if this monkey already requested to 
+        join this idea and 
+        request is still pending (i.e. status=SENT)
         """
         for r in self.requests:
-            if r.idea_id == idea.id:
+            if r.idea_id == idea.id and r.status == JoinRequestStatus.SENT:
                 return True
         return False
     
@@ -154,6 +155,14 @@ class Idea(db.Model):
     def __repr__(self):
         return self.title
     
+    def add_member(self, monkey):
+        if monkey.id == self.author_id:
+            raise Exception("Author can't become member of an idea")
+        if monkey in self.monkeys:
+            raise Exception("Monkey is already a member")
+            
+        self.monkeys.append(monkey)
+    
     
 JoinRequestStatus = enum(
     SENT=0,
@@ -188,7 +197,7 @@ class JoinRequest(db.Model):
             raise Exception("Author can't join own idea")
         
         if monkey.is_member_of(idea):
-            raise Exception("Monkey is already engaged in this idea")
+            raise Exception("Monkey is already member of this idea")
         
         if monkey.requested_to_join(idea):
             raise Exception("Monkey had already requested to join this idea")
@@ -212,7 +221,14 @@ class Suggestion(db.Model):
         """
         monkey = Monkey.query.get(self.monkey_id)
         if monkey is None:
-            raise Exception("This is no monkey id")
+            raise Exception("Monkey not found")
+        idea = Idea.query.get(self.idea_id)
+        if idea is None:
+            raise Exception("Idea not found")
+            
+        if idea.author_id == self.monkey_id:
+            raise Exception("Can't suggest an idea to its author")
+            
         for suggestion in monkey.suggestions:
             if suggestion.idea_id == self.idea_id:
                 raise DuplicateSuggestionException()

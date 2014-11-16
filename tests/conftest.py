@@ -23,7 +23,7 @@ def app(request):
 
 @pytest.fixture(scope='function')
 def session(app, request):
-    """Creates a freash database and 
+    """Creates a fresh database and 
     new session for a test.
     """
     _db.app = app

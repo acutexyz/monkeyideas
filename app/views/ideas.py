@@ -21,17 +21,13 @@ def list_ideas(page=1):
 @ideas.route('/ideas/<int:id>', methods=['GET'])
 @login_required
 def show_idea(id):
-    idea = Idea.query.get(id)
-    if idea is None:
-        abort(404)
+    idea = Idea.query.get_or_404(id)
     return render_template("idea.html", idea=idea)
 
 @ideas.route('/ideas/new', methods=['GET', 'POST'])
 @login_required
 def add_idea():
     form = IdeaForm()
-    form.status_id.choices = [(s.id, s.name) for s in IdeaStatus.query.all()]
-    form.fields.choices = [(f.id, f.name) for f in Field.query.all()]
     
     if request.method == 'GET':
         return render_template('idea_form.html', form=form)
@@ -39,9 +35,14 @@ def add_idea():
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)
     
-    i = Idea(form.title.data, form.body.data, current_user.id, form.is_public.data)
-    i.status_id = form.status_id.data
-    i.fields = Field.query.filter(Field.id.in_(form.fields.data)).all()
+    i = Idea(
+        title=form.title.data, 
+        body=form.body.data, 
+        author_id=current_user.id, 
+        is_public=form.is_public.data
+    )
+    i.status_id = form.status_id.data.id
+    i.fields = form.fields.data
     db.session.add(i)
     db.session.commit()
     

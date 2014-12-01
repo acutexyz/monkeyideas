@@ -20,15 +20,15 @@
     <paper-input floatingLabel multiline rows=7 label={{ form.body.label.text }} name={{ form.body.label.field_id }}>
     </paper-input>
     <paper-dropdown-menu label="Status of your idea" name={{ form.status_id.label.field_id }} valueattr="value" layout horizontal>
-    {% for pair in form.status_id.choices %}
-        <paper-item label="{{ pair[1] }}" value="{{ pair[0] }}"></paper-item>
+    {% for pk, label, b in form.status_id.iter_choices() %}
+        <paper-item label="{{ label }}" value="{{ pk }}"></paper-item>
     {% endfor %}
     </paper-dropdown-menu>
     <section>
         <div>{{ form.fields.label.text }}</div>
-        {% for pair in form.fields.choices %}
+        {% for pk, label, b in form.fields.iter_choices() %}
         <div center horizontal layout>
-            <paper-checkbox label={{ pair[1] }} name={{ form.fields.label.field_id }} value={{ pair[0] }}></paper-checkbox>
+            <paper-checkbox label={{ label }} name={{ form.fields.label.field_id }} value={{ pk }}></paper-checkbox>
         </div>
         {% endfor %}
     </section>

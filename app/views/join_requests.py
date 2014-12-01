@@ -13,10 +13,8 @@ from app.models import db
 @join_requests.route('/ideas/<int:idea_id>/join', methods=['GET', 'POST'])
 @login_required
 def request_to_join(idea_id):
-    idea = Idea.query.get(idea_id)
-    if idea is None:
-        abort(404)
-    
+    idea = Idea.query.get_or_404(idea_id)
+        
     form = JoinRequestForm()
     
     if request.method == 'GET':
@@ -46,9 +44,7 @@ def accept_decline_request(id, action):
     if action != 'accept' and action != 'decline':
         return make_json_resp(400, error="Wrong action")
     
-    jr = JoinRequest.query.get(id)
-    if jr is None:
-        abort(404)
+    jr = JoinRequest.query.get_or_404(id)
     
     if jr.idea.author_id != current_user.id:
         return make_json_resp(403, error="Not authorized")

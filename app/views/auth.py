@@ -38,7 +38,6 @@ def register():
         return redirect(url_for('monkeys.home'))
     
     form = RegistrationForm()
-    form.profession_id.choices = [(p.id, p.name) for p in Profession.query.all()]
     
     if request.method == 'GET':
         return render_template('register_form.html', form=form)
@@ -48,7 +47,13 @@ def register():
     
     if Monkey.query.filter_by(email=form.email.data).count() > 0:
         return make_json_resp(400, email=['This email has been already registered']) # todo: move this to wtf validation
-    monkey = Monkey(form.email.data, form.fullname.data, form.about.data, form.profession_id.data)
+    
+    monkey = Monkey(
+        email=form.email.data, 
+        fullname=form.fullname.data, 
+        about=form.about.data, 
+        profession_id=form.profession_id.data.id
+    )
     monkey.set_password(form.password.data)
     db.session.add(monkey)
     db.session.commit()

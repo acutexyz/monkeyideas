@@ -25,9 +25,7 @@ def list_monkeys(page=1):
 @monkeys.route('/monkeys/<int:id>', methods=['GET'])
 @login_required
 def show_monkey(id):
-    monkey = Monkey.query.get(id)
-    if monkey is None:
-        abort(404)
+    monkey = Monkey.query.get_or_404(id)
     return render_template("monkey.html", monkey=monkey)
 
 @monkeys.route('/edit_profile', methods=['GET', 'POST'])    # /monkeys/<int:id>/edit

@@ -13,14 +13,11 @@ suggestions = Blueprint('suggestions', __name__, template_folder='../templates/s
 @suggestions.route('/monkeys/<int:monkey_id>/suggest', methods=['GET', 'POST'])
 @login_required
 def suggest_to_user(monkey_id):
-    monkey = Monkey.query.get(monkey_id)
-    if monkey is None:
-        abort(404)
+    monkey = Monkey.query.get_or_404(monkey_id)
         
     form = SuggestForm()
-    ideas = current_user.get_ideas_to_suggest(monkey)
-    form.idea_id.choices = [(i.id, i.title) for i in ideas]
-    
+    form.idea_id.query = current_user.get_ideas_to_suggest(monkey)
+
     if request.method == 'GET':
         return render_template("suggest_form.html", form=form, monkey=monkey)
     
@@ -28,7 +25,7 @@ def suggest_to_user(monkey_id):
         return make_json_resp(400, **form.errors)
     
     try:
-        suggestion = Suggestion(monkey.id, form.idea_id.data)
+        suggestion = Suggestion(monkey.id, form.idea_id.data.id)
     except DuplicateSuggestionException:
         return make_json_resp(400, idea_id="This idea was already suggested to this monkey")
     except Exception as e:

@@ -23,7 +23,12 @@ for name in fields:
     field = Field(name)
     db.session.add(field)
     
-professions = ['Software Engineer', 'Designer', 'Business/Marketing', 'Investor', 'DevOps Engineer', 'Lawyer']
+professions = ['Software Engineer', 
+               'Designer', 
+               'Business/Marketing', 
+               'Investor', 
+               'DevOps Engineer', 
+               'Lawyer']
 
 for name in professions:
     profession = Profession(name)
@@ -41,7 +46,7 @@ for name in idea_statuses:
 db.session.commit()
 
 monkey = Monkey("aidanxyz@gmail.com", "Aidan Zhakypov", 
-                "Software developer from Central Asia. Passionate about web technologies.", 1)
+                "Web enthusiast from Central Asia.", 1)
 monkey.set_password("123qwe")
 
 db.session.add(monkey)

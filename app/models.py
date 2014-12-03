@@ -9,7 +9,8 @@ db = SQLAlchemy()
 class Profession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
-    monkeys = db.relationship('Monkey', backref='profession', lazy='dynamic')
+    monkeys = db.relationship('Monkey', backref='profession', 
+                              lazy='dynamic')
     
     def __repr__(self):
         return self.name
@@ -20,15 +21,19 @@ class Monkey(db.Model):
     password = db.Column(db.String(1200))
     fullname = db.Column(db.String(100))
     about = db.Column(db.String(200))
-    profession_id = db.Column(db.Integer, db.ForeignKey('profession.id', ondelete="SET NULL"))
+    profession_id = db.Column(db.Integer, db.ForeignKey('profession.id', 
+                              ondelete="SET NULL"))
     is_public = db.Column(db.Boolean, default=True)
     birthyear = db.Column(db.Integer) #
     sex = db.Column(db.Boolean) #
     facebook = db.Column(db.String(100)) #
     twitter = db.Column(db.String(100)) #
-    ideas = db.relationship('Idea', backref='author', lazy='dynamic') #todo make joined
-    requests = db.relationship('JoinRequest', backref='monkey', lazy='dynamic') # by me -->
-    suggestions = db.relationship('Suggestion', backref='monkey', lazy='dynamic') # to me <--
+    ideas = db.relationship('Idea', backref='author', 
+                            lazy='dynamic') #todo make joined
+    requests = db.relationship('JoinRequest', backref='monkey', 
+                                lazy='dynamic') # by me -->
+    suggestions = db.relationship('Suggestion', backref='monkey', 
+                                  lazy='dynamic') # to me <--
         
     def set_password(self, password):
         self.password = pbkdf2_sha512.encrypt(password)
@@ -67,8 +72,12 @@ class Monkey(db.Model):
         """Returns ideas query that had not been suggested
         to given monkey yet.
         """
-        suggested = Idea.query.join(Suggestion).filter(Idea.author_id==self.id, Suggestion.monkey_id==monkey.id).all()
-        return Idea.query.filter(Idea.author_id==self.id, Idea.id.notin_([i.id for i in suggested]))
+        suggested = Idea.query.join(Suggestion) \
+                              .filter(Idea.author_id==self.id, 
+                                      Suggestion.monkey_id==monkey.id) \
+                              .all()
+        return Idea.query.filter(Idea.author_id==self.id, 
+                                 Idea.id.notin_([i.id for i in suggested]))
            
     def is_member_of(self, idea):
         return self in idea.monkeys
@@ -79,7 +88,8 @@ class Monkey(db.Model):
         request is still pending (i.e. status=SENT)
         """
         for r in self.requests:
-            if r.idea_id == idea.id and r.status == JoinRequestStatus.SENT:
+            if r.idea_id == idea.id and \
+                r.status == JoinRequestStatus.SENT:
                 return True
         return False
     
@@ -87,8 +97,12 @@ class Monkey(db.Model):
         return idea.author_id == self.id
 
 fields = db.Table('fields',
-                  db.Column('idea_id', db.ForeignKey('idea.id', ondelete="CASCADE")),
-                  db.Column('field_id', db.ForeignKey('field.id', ondelete="CASCADE")),
+                  db.Column('idea_id', 
+                            db.ForeignKey('idea.id', 
+                                          ondelete="CASCADE")),
+                  db.Column('field_id', 
+                            db.ForeignKey('field.id', 
+                                          ondelete="CASCADE")),
                  )
 
 class Field(db.Model):
@@ -102,8 +116,12 @@ class Field(db.Model):
         return self.name
     
 members = db.Table('members', 
-                   db.Column('idea_id', db.ForeignKey('idea.id', ondelete="CASCADE")),
-                   db.Column('monkey_id', db.ForeignKey('monkey.id', ondelete="CASCADE")),
+                   db.Column('idea_id', 
+                             db.ForeignKey('idea.id', 
+                                           ondelete="CASCADE")),
+                   db.Column('monkey_id', 
+                             db.ForeignKey('monkey.id', 
+                                           ondelete="CASCADE")),
                   )
 
 class IdeaStatus(db.Model):
@@ -119,14 +137,21 @@ class Idea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
     body = db.Column(db.Text)
-    author_id = db.Column(db.Integer, db.ForeignKey('monkey.id', ondelete="SET NULL"))
-    fields = db.relationship('Field', secondary=fields, backref=db.backref('ideas', lazy='dynamic'))
-    monkeys = db.relationship('Monkey', secondary=members, backref=db.backref('memberin', lazy='dynamic'))
+    author_id = db.Column(db.Integer, 
+                          db.ForeignKey('monkey.id', 
+                                        ondelete="SET NULL"))
+    fields = db.relationship('Field', secondary=fields, 
+                             backref=db.backref('ideas', lazy='dynamic'))
+    monkeys = db.relationship('Monkey', secondary=members, 
+                              backref=db.backref('memberin', lazy='dynamic'))
     is_public = db.Column(db.Boolean, default=True)
-    status_id = db.Column(db.Integer, db.ForeignKey('idea_status.id', ondelete="SET NULL"))
+    status_id = db.Column(db.Integer, 
+                          db.ForeignKey('idea_status.id', 
+                                        ondelete="SET NULL"))
     requests = db.relationship('JoinRequest', backref='idea', lazy='dynamic')
-    suggestions = db.relationship('Suggestion', backref='idea', lazy='joined')
-    # todo: add date_published fuck
+    suggestions = db.relationship('Suggestion', backref='idea', 
+                                  lazy='joined')
+    # todo: add date_published
     
     def __repr__(self):
         return self.title
@@ -150,8 +175,10 @@ JoinRequestStatus = enum(
     
 class JoinRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    monkey_id = db.Column(db.Integer, db.ForeignKey('monkey.id', ondelete="CASCADE" ))
-    idea_id = db.Column(db.Integer, db.ForeignKey('idea.id', ondelete="CASCADE" ))
+    monkey_id = db.Column(db.Integer, 
+                          db.ForeignKey('monkey.id', ondelete="CASCADE" ))
+    idea_id = db.Column(db.Integer, 
+                        db.ForeignKey('idea.id', ondelete="CASCADE" ))
     status = db.Column(db.Integer, default=JoinRequestStatus.SENT) # default?
     date_sent = db.Column(db.DateTime)
     message = db.Column(db.String(200))
@@ -183,8 +210,10 @@ class JoinRequest(db.Model):
     
 class Suggestion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    monkey_id = db.Column(db.Integer, db.ForeignKey('monkey.id', ondelete="CASCADE"))
-    idea_id = db.Column(db.Integer, db.ForeignKey('idea.id', ondelete="CASCADE"))
+    monkey_id = db.Column(db.Integer, 
+                          db.ForeignKey('monkey.id', ondelete="CASCADE"))
+    idea_id = db.Column(db.Integer, 
+                        db.ForeignKey('idea.id', ondelete="CASCADE"))
     date_sent = db.Column(db.DateTime)
     
     def __init__(self, monkey_id, idea_id):

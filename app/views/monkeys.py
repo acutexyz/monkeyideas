@@ -8,7 +8,8 @@ from config import ITEMS_PER_PAGE
 
 from app.models import db
 
-monkeys = Blueprint('monkeys', __name__, template_folder='../templates/monkeys')
+monkeys = Blueprint('monkeys', __name__, 
+                    template_folder='../templates/monkeys')
 
 @monkeys.route('/', methods=['GET'])
 @login_required
@@ -19,7 +20,8 @@ def home():
 @monkeys.route('/monkeys/p/<int:page>', methods=['GET'])
 @login_required
 def list_monkeys(page=1):
-    pagination = Monkey.query.filter_by(is_public=True).paginate(page, ITEMS_PER_PAGE)
+    pagination = Monkey.query.filter_by(is_public=True) \
+                             .paginate(page, ITEMS_PER_PAGE)
     return render_template("monkeys.html", pagination=pagination)
 
 @monkeys.route('/monkeys/<int:id>', methods=['GET'])
@@ -28,7 +30,7 @@ def show_monkey(id):
     monkey = Monkey.query.get_or_404(id)
     return render_template("monkey.html", monkey=monkey)
 
-@monkeys.route('/edit_profile', methods=['GET', 'POST'])    # /monkeys/<int:id>/edit
+@monkeys.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     pass

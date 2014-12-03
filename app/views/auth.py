@@ -1,6 +1,7 @@
 from flask import Blueprint
 
-from flask.ext.login import login_user, logout_user, login_required, current_user
+from flask.ext.login import (login_user, logout_user, 
+                             login_required, current_user)
 from flask import request, render_template, redirect, url_for
 from app.models import Profession, Monkey
 from app.forms import LoginForm, RegistrationForm
@@ -22,7 +23,8 @@ def login():
             return make_json_resp(400, email=['Wrong username or password'])
         
         login_user(user)
-        return make_json_resp(200, redirect=(request.args.get("next") or url_for('monkeys.home')))
+        return make_json_resp(200, redirect=(request.args.get("next") or
+                                             url_for('monkeys.home')))
     else:
         return make_json_resp(400, **form.errors)
 
@@ -46,7 +48,9 @@ def register():
         return make_json_resp(400, **form.errors)
     
     if Monkey.query.filter_by(email=form.email.data).count() > 0:
-        return make_json_resp(400, email=['This email has been already registered']) # todo: move this to wtf validation
+        return make_json_resp(400, 
+                              email=['This email has been' + 
+                                     ' already registered']) # move to wtf
     
     monkey = Monkey(
         email=form.email.data, 

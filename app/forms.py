@@ -9,10 +9,17 @@ def professions():
 
 class RegistrationForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
-    fullname = StringField('Full name', validators=[DataRequired(), Length(min=5)])
-    about = TextAreaField('Tell about yourself', validators=[DataRequired(), Length(min=20, message="Tell about yourself at least 20 characters ;)")])
-    profession_id = QuerySelectField('Profession', validators=[DataRequired()], get_label='name', query_factory=professions)
+    password = PasswordField('Password', validators=[DataRequired(), 
+                             Length(min=6)])
+    fullname = StringField('Full name', validators=[DataRequired(), 
+                           Length(min=5, max=100)])
+    about = TextAreaField('Tell about yourself', 
+                          validators=[DataRequired(), 
+                          Length(min=20, max=200)])
+    profession_id = QuerySelectField('Profession', 
+                                     validators=[DataRequired()], 
+                                     get_label='name', 
+                                     query_factory=professions)
     is_public = BooleanField('Allow others see you?', default=False)
     
 class LoginForm(Form):
@@ -26,14 +33,22 @@ def idea_statuses():
     return IdeaStatus.query
     
 class IdeaForm(Form):
-    title = StringField('Title', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(), 
+                        Length(min=5, max=80)])
     body = TextAreaField('Description', validators=[DataRequired()])
-    fields = QuerySelectMultipleField(validators=[DataRequired()], get_label='name', query_factory=fields)
-    is_public = BooleanField('Is publicly accessible?', validators=[DataRequired()])
-    status_id = QuerySelectField('Idea status', validators=[DataRequired()], get_label='name', query_factory=idea_statuses)
+    fields = QuerySelectMultipleField(validators=[DataRequired()], 
+                                      get_label='name', 
+                                      query_factory=fields)
+    is_public = BooleanField('Is publicly accessible?', 
+                             validators=[DataRequired()])
+    status_id = QuerySelectField('Idea status', validators=[DataRequired()], 
+                                 get_label='name', 
+                                 query_factory=idea_statuses)
     
 class JoinRequestForm(Form):
-    message = TextAreaField('Message', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired(), 
+                            Length(min=5, max=200)])
     
 class SuggestForm(Form):
-    idea_id = QuerySelectField('Which idea do you want to share', validators=[DataRequired()], get_label='title')
+    idea_id = QuerySelectField('Which idea do you want to share', 
+                               validators=[DataRequired()], get_label='title')

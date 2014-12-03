@@ -6,7 +6,8 @@ from flask import request, render_template, redirect, url_for, abort
 from app.forms import JoinRequestForm
 from app.utils import make_json_resp
 
-join_requests = Blueprint('join_requests', __name__, template_folder='../templates/join_requests')
+join_requests = Blueprint('join_requests', __name__, 
+                          template_folder='../templates/join_requests')
 
 from app.models import db
 

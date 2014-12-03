@@ -18,7 +18,8 @@ def create_app(config_filename):
         
     configure_database(app, db)
     configure_login_manager(app, login_manager)
-    configure_blueprints(app, [auth, monkeys, ideas, join_requests, suggestions])
+    configure_blueprints(app, [auth, monkeys, ideas, 
+                               join_requests, suggestions])
     
     return app
 
@@ -62,8 +63,12 @@ def before_request():
     """
     g.user = current_user
     if current_user.is_authenticated() and current_user.ideas.count() > 0:
-        g.user.join_requests = JoinRequest.query.join(Idea).join(Monkey).filter(Monkey.id==current_user.id, 
-                                                         JoinRequest.status==JoinRequestStatus.SENT).count()
+        g.user.join_requests = JoinRequest.query \
+                                          .join(Idea) \
+                                          .join(Monkey) \
+                                          .filter(Monkey.id==current_user.id, 
+                                                  JoinRequest.status==JoinRequestStatus.SENT) \
+                                          .count()
         
         
 def load_user(userId):

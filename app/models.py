@@ -1,10 +1,11 @@
 from datetime import datetime
 from passlib.hash import pbkdf2_sha512
-from app.utils import enum, DuplicateSuggestionException
+from app.utils import enum, DuplicateSuggestionError
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import PasswordType
 
 db = SQLAlchemy()
+
 
 class Profession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,6 +16,7 @@ class Profession(db.Model):
     def __repr__(self):
         return self.name
     
+
 class Monkey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
@@ -96,6 +98,7 @@ class Monkey(db.Model):
     def is_author_of(self, idea):
         return idea.author_id == self.id
 
+
 fields = db.Table('fields',
                   db.Column('idea_id', 
                             db.ForeignKey('idea.id', 
@@ -104,6 +107,7 @@ fields = db.Table('fields',
                             db.ForeignKey('field.id', 
                                           ondelete="CASCADE")),
                  )
+
 
 class Field(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -115,6 +119,7 @@ class Field(db.Model):
     def __repr__(self):
         return self.name
     
+
 members = db.Table('members', 
                    db.Column('idea_id', 
                              db.ForeignKey('idea.id', 
@@ -123,6 +128,7 @@ members = db.Table('members',
                              db.ForeignKey('monkey.id', 
                                            ondelete="CASCADE")),
                   )
+
 
 class IdeaStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -173,6 +179,7 @@ JoinRequestStatus = enum(
     DECLINED=2
 )
     
+
 class JoinRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     monkey_id = db.Column(db.Integer, 
@@ -228,17 +235,17 @@ class Suggestion(db.Model):
         """
         monkey = Monkey.query.get(self.monkey_id)
         if monkey is None:
-            raise Exception("Monkey not found")
+			raise Exception("Monkey not found")
         idea = Idea.query.get(self.idea_id)
         if idea is None:
-            raise Exception("Idea not found")
+			raise Exception("Idea not found")
             
         if idea.author_id == self.monkey_id:
-            raise Exception("Can't suggest an idea to its author")
+			raise Exception("Can't suggest an idea to its author")
             
         for suggestion in monkey.suggestions:
             if suggestion.idea_id == self.idea_id:
-                raise DuplicateSuggestionException()
+				raise DuplicateSuggestionError()
         
     def __repr__(self):   
         return '"' + self.idea.title + '" -> ' + self.monkey.fullname

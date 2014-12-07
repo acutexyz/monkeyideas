@@ -3,9 +3,11 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
-from app.factory import create_app
 import os
+
+from app.factory import create_app
 from app.models import db
+
 
 app = create_app(os.getcwd() + '/config.py')
 

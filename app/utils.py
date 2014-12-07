@@ -3,10 +3,11 @@ from flask import jsonify
 def enum(**enums):
     return type('Enum', (), enums)
 
-def make_json_resp(code, **kwargs):
+def make_json_resp(code=None, **kwargs):
     resp = jsonify(**kwargs)
-    resp.status_code = code
+    if code is not None:
+    	resp.status_code = code
     return resp
 
-class DuplicateSuggestionException(Exception):
+class DuplicateSuggestionError(Exception):
     pass

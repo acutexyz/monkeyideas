@@ -1,69 +1,62 @@
 from app.models import *
-from app.utils import DuplicateSuggestionException
+from app.utils import DuplicateSuggestionError
 import pytest
+from app.forms import *
+from werkzeug.datastructures import MultiDict
+from utils import create_idea_by_monkey
 
-def create_new_monkeys(session):
-    """Creates and returns a new monkey.
-    Since monkey is bound to a profession, it also 
-    creates a new profession if there isn't one.
-    """
-    profession = Profession.query.first()
-    if profession is None:
-        profession = Profession(name="Monkey Tester")
-        session.add(profession)
-        session.commit()
-    
-    monkeys = [
-        Monkey(
-            email="crazy@jungles.com", 
-            fullname="Jack London", 
-            about="Struggling hard in jungles", 
-            profession_id=profession.id
-        ), 
-        Monkey(
-            email="fast@jungles.com", 
-            fullname="Tom Sawyer", 
-            about="Jungles sharpen skills", 
-            profession_id=profession.id
-        )
-    ]
 
-    for monkey in monkeys:
-        session.add(monkey)
-    session.commit()
-    
-    return (monkeys[0], monkeys[1])
-
-def create_idea_by_monkey(session, monkey):
-    """Creates and returns new idea authored by given monkey
-    """
-    idea = Idea(
-        title="-", 
-        body="-", 
-        author_id=monkey.id, 
-        is_public=True
+@pytest.fixture(scope='function')
+def profession(session):
+	p = Profession(name="Software Engineer in Test")
+	session.add(p)
+	session.commit()
+	return p
+		
+		
+@pytest.fixture(scope='function')
+def monkey(session, profession):
+	m = Monkey(
+        email="crazy@jungles.com", 
+        fullname="Jack London", 
+        about="Struggling hard in jungles", 
+        profession_id=profession.id
     )
-    session.add(idea)
-    session.commit()
-    return idea
+	session.add(m)
+	session.commit()
+	return m
+	
+	
+@pytest.fixture(scope='function')
+def two_monkeys(session, monkey):
+	monkey2 = Monkey(
+        email="fast@jungles.com", 
+        fullname="Tom Sawyer", 
+        about="Jungles sharpen skills", 
+        profession_id=monkey.profession_id
+    )
+	session.add(monkey2)
+	session.commit()
+	
+	return (monkey, monkey2)
+	
     
 class TestJoinRequest:
-	def test_author(self, session):
+	def test_author(self, session, monkey):
 		"""Make sure that author of an idea can't 
 		joinrequest his/her own idea
 		"""
-		monkey = create_new_monkeys(session)[0]
 		idea = create_idea_by_monkey(session, monkey)
 		
 		with pytest.raises(Exception) as ei:
 		    join_request = JoinRequest(monkey, idea)      
 		assert ei.value.message == "Author can't join own idea"
 		
-	def test_already_requested(self, session):
+	def test_already_requested(self, session, two_monkeys):
 		"""Make sure that monkey can't joinrequest twice while 
 	   previous request hasn't been accepted or declined.
 		"""
-		monkey, monkey2 = create_new_monkeys(session)
+		monkey, monkey2 = two_monkeys
 		idea = create_idea_by_monkey(session, monkey)
 		
 		join_request = JoinRequest(monkey2, idea)
@@ -75,10 +68,10 @@ class TestJoinRequest:
 		assert ei.value.message == "Monkey had already requested " + \
 		                           "to join this idea"
 		
-	def test_member(self, session):
+	def test_member(self, session, two_monkeys):
 		"""Check that member of an idea can't joinrequest this idea
 		"""
-		monkey, monkey2 = create_new_monkeys(session)
+		monkey, monkey2 = two_monkeys
 		idea = create_idea_by_monkey(session, monkey)
 		
 		idea.add_member(monkey2)
@@ -90,20 +83,19 @@ class TestJoinRequest:
     
     
 class TestIdea:
-	def test_member_author(self, session):
+	def test_member_author(self, session, monkey):
 		"""Make sure that author of an idea can't be added as a member
 		"""
-		monkey = create_new_monkeys(session)[0]
 		idea = create_idea_by_monkey(session, monkey)
 		
 		with pytest.raises(Exception) as ei:
 		    idea.add_member(monkey)
 		assert ei.value.message == "Author can't become member of an idea"
 		
-	def test_already_member(self, session):
+	def test_already_member(self, session, two_monkeys):
 		"""Assert that present member can't be added to members once more
 		"""
-		monkey, monkey2 = create_new_monkeys(session)
+		monkey, monkey2 = two_monkeys
 		idea = create_idea_by_monkey(session, monkey)
 		
 		idea.add_member(monkey2)
@@ -115,15 +107,16 @@ class TestIdea:
     
     
 class TestSuggestion:
-	def test_one_suggest_only(self, session):
-		"""Check that an idea can be suggested to a particular monkey only once
+	def test_one_suggest_only(self, session, two_monkeys):
+		"""Check that an idea can be suggested to a 
+		particular monkey only once
 		"""
-		monkey, monkey2 = create_new_monkeys(session)
+		monkey, monkey2 = two_monkeys
 		idea = create_idea_by_monkey(session, monkey)
 		
 		suggestion = Suggestion(monkey2.id, idea.id)
 		session.add(suggestion)
 		session.commit()
 		
-		with pytest.raises(DuplicateSuggestionException):
+		with pytest.raises(DuplicateSuggestionError):
 		    suggestion2 = Suggestion(monkey2.id, idea.id)

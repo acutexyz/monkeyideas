@@ -6,10 +6,10 @@ from flask import request, render_template, redirect, url_for
 from app.models import Profession, Monkey
 from app.forms import LoginForm, RegistrationForm
 from app.utils import make_json_resp
-
 from app.models import db
 
 auth = Blueprint('auth', __name__, template_folder='../templates/auth')
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -28,11 +28,13 @@ def login():
     else:
         return make_json_resp(400, **form.errors)
 
+
 @auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('auth.login'))
+	logout_user()
+	return redirect(url_for('auth.login'))
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -46,11 +48,6 @@ def register():
     
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)
-    
-    if Monkey.query.filter_by(email=form.email.data).count() > 0:
-        return make_json_resp(400, 
-                              email=['This email has been' + 
-                                     ' already registered']) # move to wtf
     
     monkey = Monkey(
         email=form.email.data, 

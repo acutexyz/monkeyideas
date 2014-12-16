@@ -6,8 +6,8 @@
 <script type="text/javascript" src="/static/js/polymer-forms.js"></script>
 <script type="text/javascript" src="/static/js/suggest.js"></script>
 
-{% if form.idea_id.choices|count  == 0 %}
-    {% if g.user.ideas.all()|count == 0 %}
+{% if form.idea_id.query.count()  == 0 %}
+    {% if g.user.ideas.count() == 0 %}
         <div>You have no ideas to suggest :(</div>
     {% else %}
         <div>You've already suggested all your ideas to this monkey</div>
@@ -16,8 +16,8 @@
     <form id="suggest_form" action="/monkeys/{{ monkey.id }}/suggest" layout vertical center-center>
         {{ form.hidden_tag() }}
         <paper-radio-group name={{ form.idea_id.label.field_id }} valueattr="value">
-            {% for pair in form.idea_id.choices %}
-            <paper-radio-button value={{ pair[0] }} label={{ pair[1] }}></paper-radio-button>
+            {% for pk, label, b in form.idea_id.iter_choices() %}
+            <paper-radio-button value={{ pk }} label="{{ label }}"></paper-radio-button>
             {% endfor %}
         </paper-radio-group>
         <paper-button id="suggest_button" raised style="background: #4285f4">Suggest</paper-button>

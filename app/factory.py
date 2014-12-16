@@ -2,6 +2,7 @@ from flask import Flask, g
 from flask.ext.login import LoginManager, current_user
 from app.models import *
 
+
 def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_pyfile(config_filename)
@@ -18,9 +19,17 @@ def create_app(config_filename):
         
     configure_database(app, db)
     configure_login_manager(app, login_manager)
-    configure_blueprints(app, [auth, monkeys, ideas, join_requests, suggestions])
+    configure_blueprints(app, [auth, monkeys, ideas, 
+                               join_requests, suggestions])
     
     return app
+
+
+def load_user(userId):
+    """@returns Monkey by given Id.
+    This function is used by LoginManager.
+    """
+    return Monkey.query.get(userId)
 
 
 def configure_blueprints(app, blueprints):
@@ -58,16 +67,13 @@ def configure_app(app):
     
 def before_request():
     """Sets global user and
-    sets the number of join requests that a logged in user has.
+    sets the number of join requests which user has.
     """
     g.user = current_user
     if current_user.is_authenticated() and current_user.ideas.count() > 0:
-        g.user.join_requests = JoinRequest.query.join(Idea).join(Monkey).filter(Monkey.id==current_user.id, 
-                                                         JoinRequest.status==JoinRequestStatus.SENT).count()
-        
-        
-def load_user(userId):
-    """@returns Monkey by given Id.
-    This function is used by LoginManager.
-    """
-    return Monkey.query.get(userId)
+        g.user.join_requests = JoinRequest.query \
+                                          .join(Idea) \
+                                          .join(Monkey) \
+                                          .filter(Monkey.id==current_user.id, 
+                                                  JoinRequest.status==JoinRequestStatus.SENT) \
+                                          .count()

@@ -1,6 +1,6 @@
 import os
 import pytest
-
+from flask import _request_ctx_stack
 from app.factory import create_app
 from app.models import db as _db
 
@@ -43,3 +43,22 @@ def session(app, request):
 
     request.addfinalizer(teardown)
     return session
+    
+    
+@pytest.fixture(scope='session')
+def client(request, app):
+    return app.test_client()
+    
+
+@pytest.fixture(scope='session')
+def request_ctx(request, app):
+    ctx = app.test_request_context()
+    ctx.push()
+
+    def teardown():
+        if _request_ctx_stack.top and _request_ctx_stack.top.preserved:
+            _request_ctx_stack.top.pop()
+        ctx.pop()
+
+    request.addfinalizer(teardown)
+    return ctx

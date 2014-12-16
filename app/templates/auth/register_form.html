@@ -22,11 +22,14 @@
     </paper-input>
     <paper-input floatingLabel multiline rows=3 label="Tell about yourself" name={{ form.about.label.field_id }}>
     </paper-input>
-    <paper-dropdown-menu label={{ form.profession_id.label.text }} name={{ form.profession_id.label.field_id }} valueattr="value" layout horizontal left>
-    {% for pair in form.profession_id.choices %}
-        <paper-item label="{{ pair[1] }}" value="{{ pair[0] }}"></paper-item>
-    {% endfor %}
+    <paper-dropdown-menu label={{ form.profession_id.label.text }} name={{ form.profession_id.label.field_id}} valueattr="value" layout horizontal left>
+        {% for pk, label, b in form.profession_id.iter_choices() %}   
+            <paper-item label="{{ label }}" value="{{ pk }}"></paper-item>
+        {% endfor %}
     </paper-dropdown-menu>
+    <!--<div>
+        {{ form.profession_id }}
+    </div>-->
     <div id="is_public" horizontal start-justified layout>
         <div>{{ form.is_public.label.text }}</div>
         <paper-toggle-button name={{ form.is_public.label.field_id }} checked=true></paper-toggle-button>

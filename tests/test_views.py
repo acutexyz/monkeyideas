@@ -9,7 +9,7 @@ from flask.ext.login import current_user, login_user, logout_user
 
 @pytest.fixture
 def profession(session):
-    p = Profession(name="Software Engineer in Test")
+    p = Profession(name='Software Engineer in Test')
     session.add(p)
     session.commit()
     return p
@@ -24,8 +24,8 @@ def password():
 def monkey(session, profession, password):
     m = Monkey(
         email='crazy@jungles.com', 
-        fullname="Jack London", 
-        about="Struggling hard in jungles", 
+        fullname='Jack London', 
+        about='Struggling hard in jungles', 
         profession_id=profession.id
     )
     m.set_password(password)
@@ -67,9 +67,9 @@ def monkey2(session, monkey, password):
     """Returns a monkey independent from idea fixture
     """
     m = Monkey(
-        email="fast@jungles.com", 
-        fullname="Tom Sawyer", 
-        about="Jungles sharpen skills", 
+        email='fast@jungles.com', 
+        fullname='Tom Sawyer', 
+        about='Jungles sharpen skills', 
         profession_id=monkey.profession_id
     )
     m.set_password(password)

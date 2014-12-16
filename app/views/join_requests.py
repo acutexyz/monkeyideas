@@ -30,7 +30,7 @@ def request_to_join(idea_id):
 
     if request.method == 'GET':
         return render_template(
-            "join_form.html", 
+            'join_form.html', 
             form=form, 
             idea=idea
         )
@@ -52,19 +52,19 @@ def request_to_join(idea_id):
 @login_required
 def list_join_requests():
     ideas = Idea.query.filter_by(author_id=current_user.id)
-    return render_template("join_requests.html", ideas=ideas)
+    return render_template('join_requests.html', ideas=ideas)
 
 
 @join_requests.route('/requests/<int:id>/<string:action>', methods=['POST'])
 @login_required
 def accept_decline_request(id, action):
     if action != 'accept' and action != 'decline':
-        return make_json_resp(400, error="Wrong action")
+        return make_json_resp(400, error='Wrong action')
     
     jr = JoinRequest.query.get_or_404(id)
     
     if jr.idea.author_id != current_user.id:
-        return make_json_resp(403, error="Not authorized")
+        return make_json_resp(403, error='Not authorized')
     
     if action == 'accept':
         jr.status = JoinRequestStatus.ACCEPTED

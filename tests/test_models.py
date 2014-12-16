@@ -8,7 +8,7 @@ from utils import create_idea_by_monkey
 
 @pytest.fixture(scope='function')
 def profession(session):
-    p = Profession(name="Software Engineer in Test")
+    p = Profession(name='Software Engineer in Test')
     session.add(p)
     session.commit()
     return p
@@ -17,9 +17,9 @@ def profession(session):
 @pytest.fixture(scope='function')
 def monkey(session, profession):
     m = Monkey(
-        email="crazy@jungles.com", 
-        fullname="Jack London", 
-        about="Struggling hard in jungles", 
+        email='crazy@jungles.com', 
+        fullname='Jack London', 
+        about='Struggling hard in jungles', 
         profession_id=profession.id
     )
     session.add(m)
@@ -30,9 +30,9 @@ def monkey(session, profession):
 @pytest.fixture(scope='function')
 def two_monkeys(session, monkey):
     monkey2 = Monkey(
-        email="fast@jungles.com", 
-        fullname="Tom Sawyer", 
-        about="Jungles sharpen skills", 
+        email='fast@jungles.com', 
+        fullname='Tom Sawyer', 
+        about='Jungles sharpen skills', 
         profession_id=monkey.profession_id
     )
     session.add(monkey2)
@@ -50,7 +50,7 @@ class TestJoinRequest:
         
         with pytest.raises(Exception) as ei:
             join_request = JoinRequest(monkey, idea)      
-        assert ei.value.message == "Author can't join own idea"
+        assert ei.value.message == 'Author can't join own idea'
         
     def test_already_requested(self, session, two_monkeys):
         """Make sure that monkey can't joinrequest twice while 
@@ -65,8 +65,8 @@ class TestJoinRequest:
         
         with pytest.raises(Exception) as ei:
             join_request2 = JoinRequest(monkey2, idea)
-        assert ei.value.message == "Monkey had already requested " + \
-                                   "to join this idea"
+        assert ei.value.message == 'Monkey had already requested ' + \
+                                   'to join this idea'
         
     def test_member(self, session, two_monkeys):
         """Check that member of an idea can't joinrequest this idea
@@ -79,7 +79,7 @@ class TestJoinRequest:
         
         with pytest.raises(Exception) as ei:
             join_request = JoinRequest(monkey2, idea)        
-        assert ei.value.message == "Monkey is already member of this idea"
+        assert ei.value.message == 'Monkey is already member of this idea'
     
     
 class TestIdea:
@@ -90,7 +90,7 @@ class TestIdea:
         
         with pytest.raises(Exception) as ei:
             idea.add_member(monkey)
-        assert ei.value.message == "Author can't become member of an idea"
+        assert ei.value.message == 'Author can't become member of an idea'
         
     def test_already_member(self, session, two_monkeys):
         """Assert that present member can't be added to members once more
@@ -103,7 +103,7 @@ class TestIdea:
         
         with pytest.raises(Exception) as ei:
             idea.add_member(monkey2)
-        assert ei.value.message == "Monkey is already a member"
+        assert ei.value.message == 'Monkey is already a member'
     
     
 class TestSuggestion:

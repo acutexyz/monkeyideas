@@ -51,7 +51,7 @@ def configure_login_manager(app, manager):
     """Login manager setup
     """
     manager.init_app(app)
-    manager.login_view = "auth.login"
+    manager.login_view = 'auth.login'
     manager.user_loader(load_user)
     
     

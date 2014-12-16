@@ -34,7 +34,7 @@ def suggest_to_user(monkey_id):
 
     if request.method == 'GET':
         return render_template(
-            "suggest_form.html", 
+            'suggest_form.html', 
             form=form, 
             monkey=monkey
         )
@@ -47,7 +47,7 @@ def suggest_to_user(monkey_id):
     except DuplicateSuggestionError:
         return make_json_resp(
             400, 
-            idea_id="This idea was already suggested to this monkey"
+            idea_id='This idea was already suggested to this monkey'
         )
     except Exception as e:
         return make_json_resp(400, idea_id=e.message)
@@ -60,4 +60,4 @@ def suggest_to_user(monkey_id):
 @suggestions.route('/suggestions', methods=['GET'])
 @login_required
 def list_suggestions():
-    return render_template("suggestions.html")
+    return render_template('suggestions.html')

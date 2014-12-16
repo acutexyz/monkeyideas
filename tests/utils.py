@@ -4,8 +4,8 @@ def create_idea_by_monkey(session, monkey):
     """Creates and returns new idea authored by given monkey
     """
     idea = Idea(
-        title="-", 
-        body="-", 
+        title='-', 
+        body='-', 
         author_id=monkey.id, 
         is_public=True
     )

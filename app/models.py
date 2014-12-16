@@ -54,7 +54,7 @@ class Monkey(db.Model):
         db.Integer, 
         db.ForeignKey(
             'profession.id', 
-            ondelete="SET NULL"
+            ondelete='SET NULL'
         )
     )
     
@@ -165,14 +165,14 @@ fields = db.Table(
         'idea_id', 
         db.ForeignKey(
             'idea.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     ),
     db.Column(
         'field_id', 
         db.ForeignKey(
             'field.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
 )
@@ -202,14 +202,14 @@ members = db.Table(
         'idea_id', 
         db.ForeignKey(
             'idea.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     ),
     db.Column(
         'monkey_id', 
         db.ForeignKey(
             'monkey.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
 )
@@ -254,7 +254,7 @@ class Idea(db.Model):
         db.Integer, 
         db.ForeignKey(
             'monkey.id', 
-            ondelete="SET NULL"
+            ondelete='SET NULL'
         )
     )
     
@@ -285,7 +285,7 @@ class Idea(db.Model):
         db.Integer, 
         db.ForeignKey(
             'idea_status.id', 
-            ondelete="SET NULL"
+            ondelete='SET NULL'
         )
     )
     
@@ -309,11 +309,11 @@ class Idea(db.Model):
     def add_member(self, monkey):
         if monkey.id == self.author_id:
             raise Exception(
-                "Author can't become member of an idea"
+                'Author can not become member of an idea'
             )
         if monkey in self.monkeys:
             raise Exception(
-                "Monkey is already a member"
+                'Monkey is already a member'
             )
             
         self.monkeys.append(monkey)
@@ -338,7 +338,7 @@ class JoinRequest(db.Model):
         db.Integer, 
         db.ForeignKey(
             'monkey.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
     
@@ -346,7 +346,7 @@ class JoinRequest(db.Model):
         db.Integer, 
         db.ForeignKey(
             'idea.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
     
@@ -363,7 +363,7 @@ class JoinRequest(db.Model):
         db.String(200)
     )
     
-    def __init__(self, monkey, idea, message=""):
+    def __init__(self, monkey, idea, message=''):
         self.monkey_id = monkey.id
         self.idea_id = idea.id
         self.date_sent = datetime.utcnow()
@@ -380,17 +380,17 @@ class JoinRequest(db.Model):
         """
         if monkey.is_author_of(idea):
             raise Exception(
-                "Author can't join own idea"
+                'Author can not join own idea'
             )
         
         if monkey.is_member_of(idea):
             raise Exception(
-                "Monkey is already member of this idea"
+                'Monkey is already member of this idea'
             )
         
         if monkey.requested_to_join(idea):
             raise Exception(
-                "Monkey had already requested to join this idea"
+                'Monkey had already requested to join this idea'
             )
         
     
@@ -404,7 +404,7 @@ class Suggestion(db.Model):
         db.Integer, 
         db.ForeignKey(
             'monkey.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
     
@@ -412,7 +412,7 @@ class Suggestion(db.Model):
         db.Integer, 
         db.ForeignKey(
             'idea.id', 
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         )
     )
     
@@ -432,14 +432,14 @@ class Suggestion(db.Model):
         """
         monkey = Monkey.query.get(self.monkey_id)
         if monkey is None:
-            raise Exception("Monkey not found")
+            raise Exception('Monkey not found')
         idea = Idea.query.get(self.idea_id)
         if idea is None:
-            raise Exception("Idea not found")
+            raise Exception('Idea not found')
             
         if idea.author_id == self.monkey_id:
             raise Exception(
-                "Can't suggest an idea to its author"
+                'Can not suggest an idea to its author'
             )
             
         for suggestion in monkey.suggestions:

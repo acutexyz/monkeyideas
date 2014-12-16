@@ -18,7 +18,7 @@ monkeys = Blueprint(
 @monkeys.route('/', methods=['GET'])
 @login_required
 def home():
-    return render_template("home.html")
+    return render_template('home.html')
 
 
 @monkeys.route('/monkeys', methods=['GET'])
@@ -27,14 +27,14 @@ def home():
 def list_monkeys(page=1):
     pagination = Monkey.query.filter_by(is_public=True) \
                              .paginate(page, ITEMS_PER_PAGE)
-    return render_template("monkeys.html", pagination=pagination)
+    return render_template('monkeys.html', pagination=pagination)
 
 
 @monkeys.route('/monkeys/<int:id>', methods=['GET'])
 @login_required
 def show_monkey(id):
     monkey = Monkey.query.get_or_404(id)
-    return render_template("monkey.html", monkey=monkey)
+    return render_template('monkey.html', monkey=monkey)
 
 
 @monkeys.route('/edit_profile', methods=['GET', 'POST'])

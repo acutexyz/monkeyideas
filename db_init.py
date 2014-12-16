@@ -52,12 +52,12 @@ for name in idea_statuses:
 db.session.commit()
 
 monkey = Monkey(
-    email="aidanxyz@gmail.com", 
-    fullname="Aidan Zhakypov", 
-    about="Web enthusiast from Central Asia.", 
+    email='aidanxyz@gmail.com', 
+    fullname='Aidan Zhakypov', 
+    about='Web enthusiast from Central Asia.', 
     profession_id=1
 )
-monkey.set_password("123qwe")
+monkey.set_password('123qwe')
 
 db.session.add(monkey)
 

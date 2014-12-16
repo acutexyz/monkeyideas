@@ -22,9 +22,9 @@ def main():
 
     def is_testcase_file(filename):
         return (
-            fnmatch(filename, "*.html") and
-            not fnmatch(filename, "manual-test*") and
-            not fnmatch(filename, "disabled-*"))
+            fnmatch(filename, '*.html') and
+            not fnmatch(filename, 'manual-test*') and
+            not fnmatch(filename, 'disabled-*'))
 
     new_testcases = StringIO.StringIO()
     new_testcases.write("""\
@@ -48,8 +48,8 @@ def main():
         sys.stdout.write('Nothing to do\n')
         sys.exit(0)
 
-    if not "--dry-run" in sys.argv:
-        file(testcase_file, "w").write("".join(new_testcases_lines))
+    if not '--dry-run' in sys.argv:
+        file(testcase_file, 'w').write(''.join(new_testcases_lines))
         sys.stdout.write(
             'Updating %s with the following diff.\n' % testcase_file)
 

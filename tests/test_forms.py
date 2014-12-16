@@ -6,7 +6,7 @@ from werkzeug.datastructures import MultiDict
 
 @pytest.fixture(scope='function')
 def profession(session):
-    p = Profession(name="Software Engineer in Test")
+    p = Profession(name='Software Engineer in Test')
     session.add(p)
     session.commit()
     return p
@@ -15,9 +15,9 @@ def profession(session):
 @pytest.fixture(scope='function')
 def monkey(session, profession):
     m = Monkey(
-        email="crazy@jungles.com", 
-        fullname="Jack London", 
-        about="Struggling hard in jungles", 
+        email='crazy@jungles.com', 
+        fullname='Jack London', 
+        about='Struggling hard in jungles', 
         profession_id=profession.id
     )
     session.add(m)
@@ -37,9 +37,9 @@ class TestRegistrationForm:
         
     def test_max(self):
         data = MultiDict([
-            ('fullname', "s" * 101),
-            ('password', "s" * 21),
-            ('about', "s" * 201)
+            ('fullname', 's' * 101),
+            ('password', 's' * 21),
+            ('about', 's' * 201)
         ])
         form = RegistrationForm(data, csrf_enabled=False)
         assert not form.validate()

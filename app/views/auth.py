@@ -29,7 +29,7 @@ def login():
     form = LoginForm()
     if request.method == 'GET':
         return render_template(
-            "login_form.html", 
+            'login_form.html', 
             form=form
         )
     
@@ -43,7 +43,7 @@ def login():
             )
         
         login_user(user)
-        return make_json_resp(200, redirect=(request.args.get("next") or 
+        return make_json_resp(200, redirect=(request.args.get('next') or 
                                              url_for('monkeys.home')))
     else:
         return make_json_resp(400, **form.errors)

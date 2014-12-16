@@ -26,14 +26,14 @@ ideas = Blueprint(
 def list_ideas(page=1):
     pagination = Idea.query.filter_by(is_public=True) \
                            .paginate(page, ITEMS_PER_PAGE)
-    return render_template("ideas.html", pagination=pagination)
+    return render_template('ideas.html', pagination=pagination)
 
 
 @ideas.route('/ideas/<int:id>', methods=['GET'])
 @login_required
 def show_idea(id):
     idea = Idea.query.get_or_404(id)
-    return render_template("idea.html", idea=idea)
+    return render_template('idea.html', idea=idea)
 
 
 @ideas.route('/ideas/new', methods=['GET', 'POST'])

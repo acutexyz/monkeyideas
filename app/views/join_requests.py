@@ -15,24 +15,24 @@ join_requests = Blueprint('join_requests', __name__,
 @join_requests.route('/ideas/<int:idea_id>/join', methods=['GET', 'POST'])
 @login_required
 def request_to_join(idea_id):
-	idea = Idea.query.get_or_404(idea_id)
-		
-	form = JoinRequestForm()
+    idea = Idea.query.get_or_404(idea_id)
+        
+    form = JoinRequestForm()
 
-	if request.method == 'GET':
-		return render_template("join_form.html", form=form, idea=idea)
+    if request.method == 'GET':
+        return render_template("join_form.html", form=form, idea=idea)
 
-	if not form.validate_on_submit():
-		return make_json_resp(400, **form.errors)
+    if not form.validate_on_submit():
+        return make_json_resp(400, **form.errors)
 
-	try:
-		join = JoinRequest(current_user, idea, form.message.data)
-	except Exception as e:
-		return make_json_resp(400, message=e.message)
-	else:
-		db.session.add(join)
-		db.session.commit()
-		return make_json_resp(200, redirect=url_for('ideas.list_ideas'))
+    try:
+        join = JoinRequest(current_user, idea, form.message.data)
+    except Exception as e:
+        return make_json_resp(400, message=e.message)
+    else:
+        db.session.add(join)
+        db.session.commit()
+        return make_json_resp(200, redirect=url_for('ideas.list_ideas'))
 
 
 @join_requests.route('/requests', methods=['GET'])

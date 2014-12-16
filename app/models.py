@@ -235,17 +235,17 @@ class Suggestion(db.Model):
         """
         monkey = Monkey.query.get(self.monkey_id)
         if monkey is None:
-			raise Exception("Monkey not found")
+            raise Exception("Monkey not found")
         idea = Idea.query.get(self.idea_id)
         if idea is None:
-			raise Exception("Idea not found")
+            raise Exception("Idea not found")
             
         if idea.author_id == self.monkey_id:
-			raise Exception("Can't suggest an idea to its author")
+            raise Exception("Can't suggest an idea to its author")
             
         for suggestion in monkey.suggestions:
             if suggestion.idea_id == self.idea_id:
-				raise DuplicateSuggestionError()
+                raise DuplicateSuggestionError()
         
     def __repr__(self):   
         return '"' + self.idea.title + '" -> ' + self.monkey.fullname

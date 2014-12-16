@@ -1,10 +1,10 @@
 from flask_wtf import Form
 from wtforms.fields import (StringField, PasswordField, 
-							TextAreaField, BooleanField)
+                            TextAreaField, BooleanField)
 from wtforms.ext.sqlalchemy.fields import (QuerySelectField, 
-										   QuerySelectMultipleField)
+                                           QuerySelectMultipleField)
 from wtforms.validators import (DataRequired, Email, 
-								Length, URL, ValidationError)
+                                Length, URL, ValidationError)
 from app.models import Profession, Field, IdeaStatus, Monkey
 
 
@@ -28,10 +28,10 @@ class RegistrationForm(Form):
     is_public = BooleanField('Allow others see you?', default=False)
     
     def validate_email(self, field):
-    	"""Checks uniqueness of email
-    	"""
-    	if Monkey.query.filter_by(email=field.data).count() > 0:
-    		raise ValidationError('This email has been already registered')
+        """Checks uniqueness of email
+        """
+        if Monkey.query.filter_by(email=field.data).count() > 0:
+            raise ValidationError('This email has been already registered')
     
 
 class LoginForm(Form):

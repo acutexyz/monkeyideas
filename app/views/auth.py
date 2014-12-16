@@ -32,8 +32,8 @@ def login():
 @auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
-	logout_user()
-	return redirect(url_for('auth.login'))
+    logout_user()
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])

@@ -52,13 +52,13 @@ def client(request, app):
 
 @pytest.fixture(scope='session')
 def request_ctx(request, app):
-	ctx = app.test_request_context()
-	ctx.push()
+    ctx = app.test_request_context()
+    ctx.push()
 
-	def teardown():
-		if _request_ctx_stack.top and _request_ctx_stack.top.preserved:
-			_request_ctx_stack.top.pop()
-		ctx.pop()
+    def teardown():
+        if _request_ctx_stack.top and _request_ctx_stack.top.preserved:
+            _request_ctx_stack.top.pop()
+        ctx.pop()
 
-	request.addfinalizer(teardown)
-	return ctx
+    request.addfinalizer(teardown)
+    return ctx

@@ -43,17 +43,17 @@ def two_monkeys(session, monkey):
     
 class TestJoinRequest:
     def test_author(self, session, monkey):
-        """Make sure that author of an idea can't 
+        """Make sure that author of an idea can not 
         joinrequest his/her own idea
         """
         idea = create_idea_by_monkey(session, monkey)
         
         with pytest.raises(Exception) as ei:
             join_request = JoinRequest(monkey, idea)      
-        assert ei.value.message == 'Author can't join own idea'
+        assert ei.value.message == 'Author can not join own idea'
         
     def test_already_requested(self, session, two_monkeys):
-        """Make sure that monkey can't joinrequest twice while 
+        """Make sure that monkey can not joinrequest twice while 
        previous request hasn't been accepted or declined.
         """
         monkey, monkey2 = two_monkeys
@@ -69,7 +69,7 @@ class TestJoinRequest:
                                    'to join this idea'
         
     def test_member(self, session, two_monkeys):
-        """Check that member of an idea can't joinrequest this idea
+        """Check that member of an idea can not joinrequest this idea
         """
         monkey, monkey2 = two_monkeys
         idea = create_idea_by_monkey(session, monkey)
@@ -84,16 +84,16 @@ class TestJoinRequest:
     
 class TestIdea:
     def test_member_author(self, session, monkey):
-        """Make sure that author of an idea can't be added as a member
+        """Make sure that author of an idea can not be added as a member
         """
         idea = create_idea_by_monkey(session, monkey)
         
         with pytest.raises(Exception) as ei:
             idea.add_member(monkey)
-        assert ei.value.message == 'Author can't become member of an idea'
+        assert ei.value.message == 'Author can not become member of an idea'
         
     def test_already_member(self, session, two_monkeys):
-        """Assert that present member can't be added to members once more
+        """Assert that present member can not be added to members once more
         """
         monkey, monkey2 = two_monkeys
         idea = create_idea_by_monkey(session, monkey)

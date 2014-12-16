@@ -1,15 +1,24 @@
 from flask import Blueprint
 from app.models import Idea, JoinRequest, JoinRequestStatus
 from flask.ext.login import login_required, current_user
-from flask import request, render_template, redirect, url_for, abort
+from flask import (
+    request, 
+    render_template, 
+    redirect, 
+    url_for, 
+    abort
+)
 from app.forms import JoinRequestForm
 from app.utils import make_json_resp
 
 from app.models import db
 
 
-join_requests = Blueprint('join_requests', __name__, 
-                          template_folder='../templates/join_requests')
+join_requests = Blueprint(
+    'join_requests', 
+    __name__, 
+    template_folder='../templates/join_requests'
+)
 
 
 @join_requests.route('/ideas/<int:idea_id>/join', methods=['GET', 'POST'])
@@ -20,7 +29,11 @@ def request_to_join(idea_id):
     form = JoinRequestForm()
 
     if request.method == 'GET':
-        return render_template("join_form.html", form=form, idea=idea)
+        return render_template(
+            "join_form.html", 
+            form=form, 
+            idea=idea
+        )
 
     if not form.validate_on_submit():
         return make_json_resp(400, **form.errors)

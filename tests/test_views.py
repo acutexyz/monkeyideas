@@ -152,8 +152,13 @@ class TestIdeaViews:
         session.commit()
         with client:
             post_login(client, idea.author.email, password)
-            r = client.post(url_for('join_requests.accept_decline_request', 
-                                    id=jr.id, action='accept'))
+            r = client.post(
+                url_for(
+                    'join_requests.accept_decline_request', 
+                    id=jr.id, 
+                    action='accept'
+                )
+            )
             assert r.status_code == 200
         
             
@@ -164,8 +169,13 @@ class TestSuggestionViews:
             data = {
                 'idea_id': idea.id
             }
-            r = client.post(url_for('suggestions.suggest_to_user', 
-                                    monkey_id=monkey2.id), 
-                            data=data, follow_redirects=True)
+            r = client.post(
+                url_for(
+                    'suggestions.suggest_to_user', 
+                    monkey_id=monkey2.id
+                ), 
+                data=data, 
+                follow_redirects=True
+            )
             assert r.status_code == 200
             assert Suggestion.query.count() == 1

@@ -8,8 +8,11 @@ from config import ITEMS_PER_PAGE
 
 from app.models import db
 
-monkeys = Blueprint('monkeys', __name__, 
-                    template_folder='../templates/monkeys')
+monkeys = Blueprint(
+    'monkeys', 
+    __name__,
+    template_folder='../templates/monkeys'
+)
 
 
 @monkeys.route('/', methods=['GET'])

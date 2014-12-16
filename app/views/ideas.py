@@ -1,13 +1,23 @@
 from flask import Blueprint
 from flask.ext.login import login_required, current_user
-from flask import request, render_template, redirect, url_for, abort
+from flask import (
+    request, 
+    render_template, 
+    redirect, 
+    url_for, 
+    abort
+)
 from app.models import Field, Idea, IdeaStatus
 from app.forms import IdeaForm
 from app.utils import make_json_resp
 from config import ITEMS_PER_PAGE
 from app.models import db
 
-ideas = Blueprint('ideas', __name__, template_folder='../templates/ideas')
+ideas = Blueprint(
+    'ideas', 
+    __name__, 
+    template_folder='../templates/ideas'
+)
 
 
 @ideas.route('/ideas', methods=['GET'])
@@ -15,7 +25,7 @@ ideas = Blueprint('ideas', __name__, template_folder='../templates/ideas')
 @login_required
 def list_ideas(page=1):
     pagination = Idea.query.filter_by(is_public=True) \
-                     .paginate(page, ITEMS_PER_PAGE)
+                           .paginate(page, ITEMS_PER_PAGE)
     return render_template("ideas.html", pagination=pagination)
 
 

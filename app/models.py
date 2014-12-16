@@ -2,7 +2,6 @@ from datetime import datetime
 from passlib.hash import pbkdf2_sha512
 from app.utils import enum, DuplicateSuggestionError
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy_utils import PasswordType
 
 db = SQLAlchemy()
 

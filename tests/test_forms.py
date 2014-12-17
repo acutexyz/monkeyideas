@@ -49,6 +49,32 @@ class TestRegistrationForm:
             ['Field must be between 5 and 100 characters long.']
         assert form.errors['about'] ==  \
             ['Field must be between 20 and 200 characters long.']
+            
+    @pytest.mark.parametrize('field, input, expected', [
+        (
+            'fullname', 
+            's' * 101, 
+            ['Field must be between 5 and 100 characters long.']
+        ),
+        (
+            'password', 
+            's' * 21, 
+            ['Field must be between 6 and 20 characters long.']
+        ),
+        (
+            'about', 
+            's' * 201, 
+            ['Field must be between 20 and 200 characters long.']
+        )
+    ])
+    @pytest.mark.usefixtures('app') # provides app context
+    def test_max_params(self, field, input, expected):
+        data = MultiDict([
+            (field, input)
+        ])
+        form = RegistrationForm(data, csrf_enabled=False)
+        assert not form.validate()
+        assert form.errors[field] == expected
         
 
 class TestSuggestForm:

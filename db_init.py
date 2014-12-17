@@ -22,7 +22,7 @@ fields = [
 ]
 
 for name in fields:
-    field = Field(name)
+    field = Field(name=name)
     db.session.add(field)
     
 professions = [
@@ -35,7 +35,7 @@ professions = [
 ]
 
 for name in professions:
-    profession = Profession(name)
+    profession = Profession(name=name)
     db.session.add(profession)
 
 idea_statuses = [
@@ -46,7 +46,7 @@ idea_statuses = [
 ]
 
 for name in idea_statuses:
-    status = IdeaStatus(name)
+    status = IdeaStatus(name=name)
     db.session.add(status)
     
 db.session.commit()

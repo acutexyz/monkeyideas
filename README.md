@@ -1,4 +1,6 @@
 monkeyideas
 ===========
 
-place where people can share ideas and build teams
+Place where people can share ideas and build teams.
+
+http://monkeysideas.herokuapp.com
